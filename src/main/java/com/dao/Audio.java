@@ -3,9 +3,6 @@ package com.dao;
 import com.controller.AudioGPO;
 import com.moduel.SongModel;
 import com.view.Menus;
-
-import java.awt.*;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
