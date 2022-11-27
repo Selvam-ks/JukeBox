@@ -3,19 +3,16 @@ package com.dao;
 import com.moduel.PlayList;
 import com.moduel.SongModel;
 import com.moduel.Search;
-import com.mysql.cj.protocol.Resultset;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 public class Dao implements Search {
-    Connection con = null;
+    static Connection con = null;
     ResultSet rs=null;
     Statement st=null;
     SongModel songobj;
-    PreparedStatement pst;
-    private Connection getConnection()
+    public static Connection getConnection()
     {
         try{//it will load the driver and create a connectivity
             Class.forName("com.mysql.cj.jdbc.Driver");  //loading the driver
