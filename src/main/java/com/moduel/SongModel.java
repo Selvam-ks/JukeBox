@@ -9,8 +9,7 @@ public class SongModel {
     private double duration;
     private String url;
 
-
-    public SongModel(int song_id,String song_name, String album, String artist, String gener, double duration) {
+    public SongModel(int song_id, String song_name, String album, String artist, String gener, double duration) {
         this.song_id = song_id;
         this.song_name = song_name;
         this.album = album;

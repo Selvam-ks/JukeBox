@@ -1,6 +1,7 @@
 package com.controller;
 
 import com.dao.Dao;
+import com.dao.DaoPlaylist;
 import com.moduel.PlayList;
 import com.moduel.SongModel;
 import com.view.AllSongs;
@@ -12,13 +13,15 @@ import java.util.Scanner;
 public class PlaylistImpl {
     Menus mnu = new Menus();
     Dao dao = new Dao();
+    DaoPlaylist daoPlaylist = new DaoPlaylist();
     String pL_Name;
     static Scanner scanner = new Scanner(System.in);
     public void PlaylistOptions()
     {
         do {
-
             int option = mnu.playlistMenu();
+            AllSongs playDisplay = new AllSongs();
+            List<PlayList> ply = dao.displayPlayList();
             switch (option) {
                 case 1:
                     //create play list
@@ -26,13 +29,12 @@ public class PlaylistImpl {
                     break;
                 case 2:
                     // display playlist
-                    List<PlayList> ply = dao.displayPlayList();
-                    AllSongs playDisplay = new AllSongs();
                     playDisplay.playList(ply);
                     pL_Name = scanner.next();
                     List<Integer> sogId = dao.playListSongsId(pL_Name);
+                    System.out.println("\t\t  ----------------------------------"+pL_Name+"-----------------------------------");
                     try {
-                        if (sogId.get(1) > 0) {
+                        if (sogId.get(1) >0) {
                             List<SongModel> display = dao.displayPlayList(sogId);
                             playDisplay.showSongs(display);
                         }
@@ -40,15 +42,28 @@ public class PlaylistImpl {
                         System.out.println("There is no such playlist or check the Spelling");
                     }
                     break;
+                case 3://added editing to play list
+                    int a = mnu.editPlayListMenu();
+                    if(a ==1){                      //add songs to existing playlist
+                        playDisplay.playList(ply);
+                        pL_Name = scanner.next();
+                        addSongToPlayList();
+                    } else if (a == 2) {            //delete songs to existing playlist
+                        deleteSongsFormPlayList();//System.out.println("delete songs");
+                    } else if (a == 3) {
+                        deletePlayList();
+                    }else System.out.println("wrong option");
+                    break;
             }
-            System.out.println("Would like to Retry (Press 1 for exit) OR Exit (Press 0 for exit)");
+            System.out.println("Would like to Retry (Press 1 for Retry) OR Exit (Press 0 for exit)");
         }while (scanner.nextInt()!=0);
     }
     public void createPlayList()
     {
         System.out.println("Enter PlayList Name Without Space:-");
         pL_Name= scanner.next();
-        int a = dao.createPlayList(pL_Name);
+        int a = daoPlaylist.createPlayList(pL_Name);
+        //int a = dao.createPlayList(pL_Name);
         if(a == 0) {
             System.out.println("playlist is created");
             addSongToPlayList();
@@ -67,7 +82,7 @@ public class PlaylistImpl {
             song_idU = scanner.nextInt();
             if (song_idU != 0) {
                 if (dao.checkSong_id(song_idU)) {
-                   dao.addSongsToPlayList(pL_Name, song_idU);
+                   daoPlaylist.addSongsToPlayList(pL_Name, song_idU);
                 } else System.out.println("No such song id");
             } else {
                 System.out.println("Exiting to the Main menu");
@@ -75,9 +90,32 @@ public class PlaylistImpl {
             System.out.println("repeart song adding press 1");
         }while (scanner.nextInt() ==1);
     }
-    public void showPlayList()
+
+    public void deleteSongsFormPlayList()
     {
-
+        AllSongs playDisplay = new AllSongs();
+        List<PlayList> ply = dao.displayPlayList();
+        playDisplay.playList(ply);
+        pL_Name = scanner.next();
+        List<Integer> sogId = dao.playListSongsId(pL_Name);
+        System.out.println("\t\t  ----------------------------------"+pL_Name+"-----------------------------------");
+        try {
+            if (sogId.get(1) >0) {
+                List<SongModel> display = dao.displayPlayList(sogId);
+                playDisplay.showSongs(display);
+                System.out.println("Enter the song_id");
+                daoPlaylist.deleteSongsInPlayList(pL_Name,scanner.nextInt());
+            }
+        } catch (Exception ignored) {
+            System.out.println("There is no such playlist or check the Spelling");
+        }
     }
-
+    public void deletePlayList()
+    {
+        AllSongs playDisplay = new AllSongs();
+        List<PlayList> ply = dao.displayPlayList();
+        playDisplay.playList(ply);
+        pL_Name = scanner.next();
+        daoPlaylist.deletePlayListString(pL_Name);
+    }
 }

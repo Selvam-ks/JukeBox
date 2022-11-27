@@ -34,6 +34,7 @@ public class Dao implements Search {
         String artist;
         String gener;
         double duration;
+        String url;
         try{
             st = con.createStatement();
             rs = st.executeQuery("select * from jukebox.songs");
@@ -44,7 +45,8 @@ public class Dao implements Search {
                 artist  =rs.getString(4);
                 gener = rs.getString(5);
                 duration = rs.getDouble("duration");
-                songobj = new SongModel(song_id,song_name,album,artist,gener,duration);
+                url = rs.getString(7);
+                songobj = new SongModel(song_id,song_name,album,artist,gener,duration,url);
                 allSongList.add(songobj);
             }
         }catch (Exception e)
@@ -63,7 +65,7 @@ public class Dao implements Search {
             rs = st.executeQuery("select * from jukebox.songs where song_name ='"+s_name+"'");
             while (rs.next()) {
                 songobj = new SongModel(rs.getInt("song_id"),rs.getString("song_name"),rs.getString("album"),
-                        rs.getString(4), rs.getString(5), rs.getDouble("duration"));
+                        rs.getString(4), rs.getString(5), rs.getDouble("duration"),rs.getString("url"));
                 bySongNameList.add(songobj);
             }
 
@@ -130,20 +132,6 @@ public class Dao implements Search {
         }
         return bySongArtistList;
     }
-    public int createPlayList(String playList_Name)
-    {
-        con = getConnection();
-        int tableCreated=1;
-        try {
-            st = con.createStatement();
-            tableCreated = st.executeUpdate("create table "+playList_Name+" (playername VARCHAR(50) NOT NULL, song_id int NOT NULL,foreign key(song_id) references songs(song_id),PRIMARY KEY (`song_id`))");
-            int rsr = st.executeUpdate("INSERT INTO `jukebox`.`playlist_name_list` (`Name`) VALUES ('"+playList_Name+"')");
-        }catch (Exception e)
-        {
-            System.out.println(e.getMessage());
-        }
-        return tableCreated;
-    }
     public List<Integer> playListSongsId(String playList)
     {
         con = getConnection();
@@ -181,22 +169,10 @@ public class Dao implements Search {
         }
         return  PlayListSongs;
     }
-    public void addSongsToPlayList(String pL_Name,int song_idU)
-    {
-        con = getConnection();
-        try {
-            st = con.createStatement();
-           int tableUpdated = st.executeUpdate("INSERT INTO jukebox."+pL_Name+ "(playername,song_id) value ('"+pL_Name+"',"+song_idU+")");
-        }catch (Exception e)
-        {
-            System.out.println(e);
-        }
-    }
     public boolean checkSong_id(int song_idU)
     {
         boolean flag = false;
         con=getConnection();
-        List<SongModel> allSongList = new ArrayList<>();
         int song_id;
         try {
             st = con.createStatement();
@@ -207,8 +183,7 @@ public class Dao implements Search {
                     flag = true;
                     break;}
             }
-        }catch (Exception e)
-        {
+        }catch (Exception e) {
             System.out.println("The Exceptions..."+e.getMessage());
         }
         return flag;
@@ -217,10 +192,8 @@ public class Dao implements Search {
     {
         con=getConnection();
         ArrayList<PlayList> plylst  = new ArrayList<>();
-        PlayList ply = new PlayList();
+        PlayList ply;
         try {
-            String playListName;
-            int playerListNum;
             st = con.createStatement();
             rs = st.executeQuery("SELECT * FROM jukebox.playlist_name_list");
             while (rs.next()) {
@@ -231,7 +204,6 @@ public class Dao implements Search {
         {
             System.out.println("The Exceptions..."+e.getMessage());
         }
-        //select *from <> where playlist Not equal songs
         return plylst;
     }
 

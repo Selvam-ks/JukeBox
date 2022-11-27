@@ -1,5 +1,6 @@
 package com.controller;
 
+import com.dao.Audio;
 import com.dao.Dao;
 import com.moduel.SongModel;
 import com.view.AllSongs;
@@ -8,7 +9,7 @@ import com.view.Menus;
 import java.util.List;
 import java.util.Scanner;
 
-public class SongImpl {
+public class SongMainImpl {
     static Dao dps = new Dao();
     static SongSearch songSearch = new SongSearch();
     static Scanner src = new Scanner(System.in);
@@ -25,6 +26,8 @@ public class SongImpl {
                     List<SongModel> songmodel = dps.getAllSongs();
                     AllSongs myview = new AllSongs();
                     myview.showSongs(songmodel);
+                    Audio audio = new Audio();
+                    audio.playAllSongs(songmodel);
                 break;
                 case 2:
                     songSearch.searchSongProcess(mnu.searchSongList());
