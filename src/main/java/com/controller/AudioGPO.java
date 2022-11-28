@@ -23,7 +23,7 @@ public class AudioGPO {
             clip.open(audioInputStream);
         }
         catch (Exception e){
-            System.out.println(e.getMessage());
+            System.out.println("The file is Missing or File not fund");
         }
     }
     public void playAudio() {
@@ -40,7 +40,7 @@ public class AudioGPO {
         try{
             currentFrame=0L;
             clip.stop();
-            clip.close();
+            //clip.close();
         }
         catch(Exception e){
             System.out.println(e.getMessage());

@@ -1,13 +1,18 @@
 package com.dao;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import com.moduel.SongModel;
+import com.mysql.cj.jdbc.exceptions.MySQLQueryInterruptedException;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.dao.Dao.getConnection;
 public class DaoPlaylist {
-    ResultSet rs=null;
+    //ResultSet rs=null;
     Statement st=null;
+    ResultSet rs=null;
     Connection con = null;
+    PreparedStatement pst;
     public int createPlayList(String playList_Name)
     {
         con = getConnection();
@@ -28,7 +33,11 @@ public class DaoPlaylist {
         try {
             st = con.createStatement();
             int tableUpdated = st.executeUpdate("INSERT INTO jukebox."+pL_Name+ "(playername,song_id) value ('"+pL_Name+"',"+song_idU+")");
-        }catch (Exception e)
+        }catch (MySQLQueryInterruptedException a)
+        {
+            System.out.println("Song_id "+song_idU+" Already added to play list");
+        }
+        catch (Exception e)
         {
             System.out.println(e);
         }
@@ -57,13 +66,29 @@ public class DaoPlaylist {
             st = con.createStatement();
             tableUpdated = st.executeUpdate("DELETE FROM jukebox.playlist_name_list WHERE (`Name` = '"+pL_Name+"')");
             tableDelete = st.executeUpdate("drop table jukebox."+pL_Name);
-            System.out.println(tableUpdated+tableDelete);
         }catch (Exception e)
         {
             System.out.println(e.getMessage());
         }
-        /*if(tableUpdated ==0 && tableDelete ==0)
+        if(tableUpdated ==1 && tableDelete ==0)
             System.out.println("PlayList Deleted Successfully");
-        else System.out.println("data Not Found");*/
+        else System.out.println("data Not Found");
+    }
+    public void addSongToDataBase(String song_name, String album, String artist, String gener, double duration, String url)
+    {
+        con=getConnection();
+        int tableUpdated = 0;
+        try{
+            pst = con.prepareStatement("insert into jukebox.songs (song_name,album,artist,gener,duration,url) VALUES (?,?,?,?,?,?)");
+            pst.setString(1,song_name);
+            pst.setString(2,album);
+            pst.setString(3,album);
+            pst.setDouble(4,duration);
+            pst.setString(5,url);
+            tableUpdated = pst.executeUpdate();
+        }catch (Exception e)
+        {
+            System.out.println("The Exceptions..."+e.getMessage());
+        }
     }
 }

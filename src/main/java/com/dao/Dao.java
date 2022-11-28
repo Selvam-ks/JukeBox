@@ -85,7 +85,7 @@ public class Dao implements Search {
             rs = st.executeQuery("select * from jukebox.songs where album ='"+album+"'");
             while (rs.next()) {
                 songobj = new SongModel(rs.getInt("song_id"),rs.getString("song_name"),rs.getString("album"),
-                        rs.getString(4), rs.getString(5), rs.getDouble("duration"));
+                        rs.getString(4), rs.getString(5), rs.getDouble("duration"),rs.getString("url"));
                 bySongAlbumList.add(songobj);
             }
 
@@ -105,7 +105,7 @@ public class Dao implements Search {
             rs = st.executeQuery("select * from jukebox.songs where artist ='"+artist+"'");
             while (rs.next()) {
                 songobj = new SongModel(rs.getInt("song_id"),rs.getString("song_name"),rs.getString("album"),
-                        rs.getString(4), rs.getString(5), rs.getDouble("duration"));
+                        rs.getString(4), rs.getString(5), rs.getDouble("duration"),rs.getString("url"));
                 bySongArtistList.add(songobj);
             }
         }catch (Exception e)
@@ -124,7 +124,7 @@ public class Dao implements Search {
             rs = st.executeQuery("select * from jukebox.songs where gener ='"+gener+"'");
             while (rs.next()) {
                 songobj = new SongModel(rs.getInt("song_id"),rs.getString("song_name"),rs.getString("album"),
-                        rs.getString(4), rs.getString(5), rs.getDouble("duration"));
+                        rs.getString(4), rs.getString(5), rs.getDouble("duration"),rs.getString("url"));
                 bySongArtistList.add(songobj);
             }
         }catch (Exception e) {
@@ -144,7 +144,7 @@ public class Dao implements Search {
             }
         }catch (Exception e)
         {
-            System.out.println(e.getMessage());
+            System.out.println("There is No such table");
         }
         return list;
     }
@@ -159,7 +159,7 @@ public class Dao implements Search {
                 rs = st.executeQuery("select * from jukebox.songs where song_Id ="+i.next());
                 while (rs.next()) {
                     songobj = new SongModel(rs.getInt("song_id"), rs.getString("song_name"), rs.getString("album"),
-                            rs.getString(4), rs.getString(5), rs.getDouble("duration"));
+                            rs.getString(4), rs.getString(5), rs.getDouble("duration"), rs.getString("url"));
                     PlayListSongs.add(songobj);
                 }
             }
@@ -206,5 +206,4 @@ public class Dao implements Search {
         }
         return plylst;
     }
-
 }

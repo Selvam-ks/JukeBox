@@ -21,14 +21,13 @@ public class Audio {
         while (i.hasNext())
         {
             String s = i.next();
-            System.out.println(s);
+            //System.out.println(s);
             audiogpo.AudioPlayerMethods(s);
             mnu.audioMenu();
-            int z =0;
-
+            int a;
             do {
                 System.out.println("Enter a Choice");
-                int a = src.nextInt();
+                a = src.nextInt();
                 switch (a)
                 {
                     case 1://play music
@@ -50,12 +49,12 @@ public class Audio {
                         audiogpo.loopAudio();
                         break;
                     default:
-                        System.out.println("wrong InPut");
+                        System.out.println("Exiting to menu");
                         break;
                 }
-                System.out.println("Zero(0) for Next Song");
-                z= src.nextInt();
-            }while (z!=0);
+                /*System.out.println("Zero(0) for Next Song");
+                a= src.nextInt();*/
+            }while (a != 0);
             audiogpo.stopAudio();
         }
     }

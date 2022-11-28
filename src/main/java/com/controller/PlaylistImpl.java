@@ -1,5 +1,6 @@
 package com.controller;
 
+import com.dao.Audio;
 import com.dao.Dao;
 import com.dao.DaoPlaylist;
 import com.moduel.PlayList;
@@ -7,6 +8,7 @@ import com.moduel.SongModel;
 import com.view.AllSongs;
 import com.view.Menus;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -16,6 +18,13 @@ public class PlaylistImpl {
     DaoPlaylist daoPlaylist = new DaoPlaylist();
     String pL_Name;
     static Scanner scanner = new Scanner(System.in);
+    Audio audio = new Audio();
+
+
+    public void audioFileCollector(List<SongModel> songModels)
+    {
+        audio.playAllSongs(songModels);
+    }
     public void PlaylistOptions()
     {
         do {
@@ -31,23 +40,42 @@ public class PlaylistImpl {
                     // display playlist
                     playDisplay.playList(ply);
                     pL_Name = scanner.next();
-                    List<Integer> sogId = dao.playListSongsId(pL_Name);
-                    System.out.println("\t\t  ----------------------------------"+pL_Name+"-----------------------------------");
-                    try {
-                        if (sogId.get(1) >0) {
-                            List<SongModel> display = dao.displayPlayList(sogId);
-                            playDisplay.showSongs(display);
+                    /*boolean flag = false;
+                    for (PlayList p : ply) {
+                        if(pL_Name.equals(p.getPlayListName())) {
+                            flag = true;
+                            break;
                         }
-                    } catch (Exception ignored) {
-                        System.out.println("There is no such playlist or check the Spelling");
-                    }
+                        System.out.println("PlayList Not Found");
+                    }*/
+                        List<Integer> sogId = dao.playListSongsId(pL_Name);
+                        System.out.println("\t\t  ----------------------------------" + pL_Name + "-----------------------------------");
+                        try {
+                            if (sogId.get(1) > 0) {
+                                List<SongModel> display = dao.displayPlayList(sogId);
+                                playDisplay.showSongs(display);
+                                mnu.audioPlayMenu();
+                                System.out.println("Chose THe options");
+                                int a = scanner.nextInt();
+                                if( a == 1)
+                                    audioFileCollector(display);
+                                //else if (a == 2)
+
+                            }
+                        } catch (Exception ignored) {
+//                            System.out.println("There is no such playlist or check the Spelling");
+                        }
                     break;
                 case 3://added editing to play list
                     int a = mnu.editPlayListMenu();
                     if(a ==1){                      //add songs to existing playlist
                         playDisplay.playList(ply);
                         pL_Name = scanner.next();
-                        addSongToPlayList();
+                        for (PlayList p : ply) {
+                            if(pL_Name.equals(p.getPlayListName()))
+                                addSongToPlayList();
+                        }
+                        System.out.println("PlayList Not Found");
                     } else if (a == 2) {            //delete songs to existing playlist
                         deleteSongsFormPlayList();//System.out.println("delete songs");
                     } else if (a == 3) {
@@ -55,6 +83,7 @@ public class PlaylistImpl {
                     }else System.out.println("wrong option");
                     break;
             }
+
             System.out.println("Would like to Retry (Press 1 for Retry) OR Exit (Press 0 for exit)");
         }while (scanner.nextInt()!=0);
     }
@@ -78,7 +107,7 @@ public class PlaylistImpl {
         AllSongs myview = new AllSongs();
         myview.showSongs(songmodel);
         do {
-            System.out.println("Enter the correct song_id From the above list");
+            System.out.println("Enter the correct song_id From the above list or Press 0 to Exit");
             song_idU = scanner.nextInt();
             if (song_idU != 0) {
                 if (dao.checkSong_id(song_idU)) {
@@ -87,8 +116,7 @@ public class PlaylistImpl {
             } else {
                 System.out.println("Exiting to the Main menu");
             }
-            System.out.println("repeart song adding press 1");
-        }while (scanner.nextInt() ==1);
+        }while (song_idU>0);
     }
 
     public void deleteSongsFormPlayList()

@@ -3,18 +3,17 @@ import com.dao.Audio;
 import com.dao.Dao;
 import com.moduel.SongModel;
 import com.view.AllSongs;
-
 import java.util.List;
 import java.util.Scanner;
-
 public class SongSearch {
     static Scanner src = new Scanner(System.in);
     static Dao dao = new Dao();
     Audio audio = new Audio();
+
     public void searchSongProcess(int a)
     {
         AllSongs myView = new AllSongs();
-        displayAllSongs();
+        //displayAllSongs();
         switch (a)
         {
             case 1:
@@ -29,22 +28,25 @@ public class SongSearch {
                 String album = src.nextLine();
                 List<SongModel> byalbum = dao.bySongAlbum(album);
                 myView.showSongs(byalbum);
+                audio.playAllSongs(byalbum);
                 break;
             case 3:
                 System.out.println("Enter The song Artist");
                 String artist = src.nextLine();
                 List<SongModel> byartist = dao.bySongArtist(artist);
                 myView.showSongs(byartist);
+                audio.playAllSongs(byartist);
                 break;
             case 4:
                 System.out.println("Enter The song Gener");
                 String gener = src.nextLine();
                 List<SongModel> bygener = dao.bySongGener(gener);
                 myView.showSongs(bygener);
+                audio.playAllSongs(bygener);
                 break;
             default:
-                System.out.println("no suck input");
-
+                //System.out.println("no suck input");
+                break;
         }
     }
     public void displayAllSongs()
