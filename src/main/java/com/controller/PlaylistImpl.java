@@ -3,12 +3,11 @@ package com.controller;
 import com.dao.Audio;
 import com.dao.Dao;
 import com.dao.DaoPlaylist;
-import com.moduel.PlayList;
-import com.moduel.SongModel;
+import com.model.PlayList;
+import com.model.SongModel;
 import com.view.AllSongs;
 import com.view.Menus;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 

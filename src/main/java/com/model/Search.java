@@ -1,4 +1,4 @@
-package com.moduel;
+package com.model;
 import java.util.List;
 public interface Search {
     List<SongModel> bySongName(String s_name);

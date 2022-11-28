@@ -1,4 +1,4 @@
-package com.moduel;
+package com.model;
 
 public class SongModel {
     private int song_id;
@@ -83,8 +83,7 @@ public class SongModel {
     public void setUrl(String url) {
         this.url = url;
     }
-
-    /*@Override
+    @Override
     public String toString() {
         return "com.module.Music{" +
                 "song_id=" + song_id +
@@ -95,5 +94,5 @@ public class SongModel {
                 ", duration=" + duration +
                 ", url='" + url + '\'' +
                 '}';
-    }*/
+    }
 }

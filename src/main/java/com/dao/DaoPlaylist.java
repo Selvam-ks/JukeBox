@@ -1,10 +1,7 @@
 package com.dao;
-import com.moduel.SongModel;
 import com.mysql.cj.jdbc.exceptions.MySQLQueryInterruptedException;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.dao.Dao.getConnection;
 public class DaoPlaylist {

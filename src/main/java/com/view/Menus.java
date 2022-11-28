@@ -21,7 +21,7 @@ public class Menus {
         src  = new Scanner(System.in);
         int a = 0;
         try {
-            System.out.println("1. Show All Song\n2. Search Song\n3. Show Playlist\n4. Add Songs To DataBase");
+            System.out.println("1. Show All Song\n2. Search Song\n3. Show Playlist"); //54. Add Songs To DataBase
             a =  src.nextInt();
         }catch (InputMismatchException e)
         {

@@ -3,7 +3,7 @@ package com.controller;
 import com.dao.Audio;
 import com.dao.Dao;
 import com.dao.DaoPlaylist;
-import com.moduel.SongModel;
+import com.model.SongModel;
 import com.view.AllSongs;
 import com.view.Menus;
 

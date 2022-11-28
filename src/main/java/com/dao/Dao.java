@@ -1,8 +1,8 @@
 package com.dao;
 
-import com.moduel.PlayList;
-import com.moduel.SongModel;
-import com.moduel.Search;
+import com.model.PlayList;
+import com.model.SongModel;
+import com.model.Search;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Iterator;

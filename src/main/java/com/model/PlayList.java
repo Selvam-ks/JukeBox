@@ -1,4 +1,4 @@
-package com.moduel;
+package com.model;
 
 public class PlayList {
     private int song_id_playlist;

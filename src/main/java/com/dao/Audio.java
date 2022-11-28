@@ -1,7 +1,7 @@
 package com.dao;
 
 import com.controller.AudioGPO;
-import com.moduel.SongModel;
+import com.model.SongModel;
 import com.view.Menus;
 import java.util.ArrayList;
 import java.util.Iterator;

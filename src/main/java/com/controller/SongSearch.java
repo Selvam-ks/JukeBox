@@ -1,7 +1,7 @@
 package com.controller;
 import com.dao.Audio;
 import com.dao.Dao;
-import com.moduel.SongModel;
+import com.model.SongModel;
 import com.view.AllSongs;
 import java.util.List;
 import java.util.Scanner;
