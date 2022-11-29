@@ -22,7 +22,7 @@ public class Menus {
         src  = new Scanner(System.in);
         int a = 0;
         try {
-            System.out.println("1. Show All Song\n2. Search Song\n3. Show Playlist\n4. Exit"); //54. Add Songs To DataBase
+            System.out.println("1. Show All Song\n2. Search Song Menu\n3. Playlist Menu\n4. Exit"); //54. Add Songs To DataBase
             a =  src.nextInt();
         }catch (InputMismatchException e)
         {
@@ -74,7 +74,7 @@ public class Menus {
     public void audioMenu()
     {
         System.out.println("---------------------------Dialog Box-------------------------------------------------------");
-        System.out.println("1:Play songs\t2:Stop\t3:Pause\t4:Resume\t5:Restart\t6:LoopMusic\t7.Exit the playlist\t0:Nest");
+        System.out.println("1:Play songs\t2:Stop\t3:Pause\t4:Resume\t5:Restart\t6:LoopMusic\t7.Exit the playlist\t0:Next");
         System.out.println("--------------------------------------------------------------------------------------------");
     }
     public int audioPlayMenu()

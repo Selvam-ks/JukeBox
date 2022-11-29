@@ -1,0 +1,43 @@
+playlistImpl
+/*public void deleteSongsInPlayList(String pL_Name,int song_idU) // with multiple tables
+    {
+        con = getConnection();
+        int tableUpdated = 0;
+        try {
+            st = con.createStatement();
+            tableUpdated = st.executeUpdate("DELETE FROM jukebox."+pL_Name+ " WHERE (`song_id` = "+song_idU+")");
+        }catch (Exception e)
+        {
+            System.out.println(e);
+        }
+        if(tableUpdated !=0)
+            System.out.println("Deleted Successfully");
+        else System.out.println("data Not Found");
+    }*/
+    /*public void addSongsToPlayList(String pL_Name,int song_idU)  // with multiple tables
+        {
+            con = getConnection();
+            try {
+                st = con.createStatement();
+                int tableUpdated = st.executeUpdate("INSERT INTO jukebox."+pL_Name+ "(playername,song_id) value ('"+pL_Name+"',"+song_idU+")");
+                System.out.println("Added Successfully");
+            }
+            catch (Exception e)
+            {
+                System.out.println("The Song is already added to your playlist you cannot create duplicate entry");
+            }
+        }*/
+         /*public int createPlayListNew(String playList_Name)    // with multiple tables
+            {
+                con = getConnection();
+                int tableCreated=1;
+                try {
+                    st = con.createStatement();
+                    tableCreated = st.executeUpdate("create table "+playList_Name+" (playername VARCHAR(50) NOT NULL, song_id int NOT NULL,foreign key(song_id) references songs(song_id),PRIMARY KEY (`song_id`))");
+                    int rsr = st.executeUpdate("INSERT INTO `jukebox`.`playlist_name_list1` (`Name`) VALUES ('"+playList_Name+"')");
+                }catch (Exception e)
+                {
+                    System.out.println(e.getMessage());
+                }
+                return tableCreated;
+            }*/

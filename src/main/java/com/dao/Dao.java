@@ -88,12 +88,9 @@ public class Dao implements Search {
                         rs.getString(4), rs.getString(5), rs.getDouble("duration"),rs.getString("url"));
                 bySongAlbumList.add(songobj);
             }
-
-        }catch (Exception e)
-        {
+        }catch (Exception e) {
             System.out.println("The Exceptions..."+e.getMessage());
-        }
-        return bySongAlbumList;
+        }return bySongAlbumList;
     }
     @Override
     public List<SongModel> bySongArtist(String artist)
@@ -108,11 +105,9 @@ public class Dao implements Search {
                         rs.getString(4), rs.getString(5), rs.getDouble("duration"),rs.getString("url"));
                 bySongArtistList.add(songobj);
             }
-        }catch (Exception e)
-        {
+        }catch (Exception e) {
             System.out.println("The Exceptions..."+e.getMessage());
-        }
-        return bySongArtistList;
+        }return bySongArtistList;
     }
     @Override
     public List<SongModel> bySongGener(String gener)
@@ -132,7 +127,7 @@ public class Dao implements Search {
         }
         return bySongArtistList;
     }
-    /*public List<Integer> getPlayListSongsId(String playList)
+    /*public List<Integer> getPlayListSongsId(String playList)   // with multi table
     {
         con = getConnection();
         List<Integer> list = new ArrayList<>();
@@ -148,13 +143,12 @@ public class Dao implements Search {
         }
         return list;
     }*/
-    public List<Integer> getPlayListSongsId(String playList)
-    {
-        con = getConnection();
+    public List<Integer> getPlayListSongsId(String playList)        // without multi table
+    {con = getConnection();
         List<Integer> list = new ArrayList<>();
         try{
             st = con.createStatement();
-            rs = st.executeQuery("select song_id from jukebox."+playList);
+            rs = st.executeQuery("select song_id from jukebox.playlist_collector where playlist_name = '"+playList+"'");
             while (rs.next()) {
                 list.add(rs.getInt(1));
             }
