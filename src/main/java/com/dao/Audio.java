@@ -23,7 +23,7 @@ public class Audio {
         {
             String s = i.next();
             System.out.println(s);
-            audiogpo.AudioPlayerMethods(s);
+            //audiogpo.AudioPlayerMethods(s);
             mnu.audioMenu();
             int a = 0;
                 do {
