@@ -31,30 +31,19 @@ public class PlaylistImpl {
             AllSongs playDisplay = new AllSongs();
             List<PlayList> ply = dao.displayPlayList();
             switch (option) {
-                case 1:
-                    //create play list
-                    createPlayList();
+                case 1: //create play list
+                    createNewPlayList();
                     break;
-                case 2:
-                    // display playlist
+                case 2: // View Existing Playlist
                     playDisplay.playList(ply);
                     pL_Name = scanner.next();
-                    /*boolean flag = false;
-                    for (PlayList p : ply) {
-                        if(pL_Name.equals(p.getPlayListName())) {
-                            flag = true;
-                            break;
-                        }
-                        System.out.println("PlayList Not Found");
-                    }*/
-                        List<Integer> sogId = dao.playListSongsId(pL_Name);
+                        List<Integer> sogId = dao.getPlayListSongsId(pL_Name);// getting all song id from the play table
                         System.out.println("\t\t  ----------------------------------" + pL_Name + "-----------------------------------");
                         try {
                             if (sogId.get(1) > 0) {
                                 List<SongModel> display = dao.displayPlayList(sogId);
                                 playDisplay.showSongs(display);
                                 System.out.println("Chose THe options");
-
                                 int a = mnu.audioPlayMenu();
                                 if( a == 1)
                                     audioFileCollector(display);
@@ -82,21 +71,18 @@ public class PlaylistImpl {
                     }else System.out.println("wrong option");
                     break;
             }
-
-            System.out.println("Would like to Retry (Press 1 for Retry) OR Exit (Press 0 for exit)");
+            System.out.println("Would like to Retry (Press 1 for Retry) OR Exit to Main (Press 0 for exit)");
         }while (scanner.nextInt()!=0);
     }
-    public void createPlayList()
+    public void createNewPlayList()
     {
         System.out.println("Enter PlayList Name Without Space:-");
         pL_Name= scanner.next();
-        int a = daoPlaylist.createPlayList(pL_Name);
-        //int a = dao.createPlayList(pL_Name);
-        if(a == 0) {
-            System.out.println("playlist is created");
+        int tableUpdate = daoPlaylist.createPlayListNew(pL_Name);
+        System.out.println(tableUpdate);
+        if(tableUpdate == 1) {
+            System.out.println("playlist is created Successfully for "+pL_Name);
             addSongToPlayList();
-        } else{
-            System.out.println("Playlist not created");
         }
     }
     public void addSongToPlayList()
@@ -117,14 +103,13 @@ public class PlaylistImpl {
             }
         }while (song_idU>0);
     }
-
     public void deleteSongsFormPlayList()
     {
         AllSongs playDisplay = new AllSongs();
         List<PlayList> ply = dao.displayPlayList();
         playDisplay.playList(ply);
         pL_Name = scanner.next();
-        List<Integer> sogId = dao.playListSongsId(pL_Name);
+        List<Integer> sogId = dao.getPlayListSongsId(pL_Name);
         System.out.println("\t\t  ----------------------------------"+pL_Name+"-----------------------------------");
         try {
             if (sogId.get(1) >0) {

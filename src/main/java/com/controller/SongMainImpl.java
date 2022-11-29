@@ -23,8 +23,7 @@ public class SongMainImpl {
             int option = mnu.menu();
             switch (option)
             {
-                case 1:
-                    //display all songs
+                case 1://display all songs
                     List<SongModel> songmodel = dps.getAllSongs();
                     AllSongs myview = new AllSongs();
                     myview.showSongs(songmodel);
@@ -32,14 +31,14 @@ public class SongMainImpl {
                     if(a == 1)
                         audio.playAllSongs(songmodel);
                 break;
-                case 2:
+                case 2://Search Song
                     songSearch.displayAllSongs();
                     songSearch.searchSongProcess(mnu.searchSongList());
                 break;
-                case 3:
+                case 3://Show Playlist
                     plyLst.PlaylistOptions();
                 break;
-                case 4:
+                case 4://Exit
                     break;
                 default:
                     System.out.println("No such option");

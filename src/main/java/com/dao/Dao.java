@@ -132,7 +132,23 @@ public class Dao implements Search {
         }
         return bySongArtistList;
     }
-    public List<Integer> playListSongsId(String playList)
+    /*public List<Integer> getPlayListSongsId(String playList)
+    {
+        con = getConnection();
+        List<Integer> list = new ArrayList<>();
+        try{
+            st = con.createStatement();
+            rs = st.executeQuery("select song_id from jukebox."+playList);
+            while (rs.next()) {
+                list.add(rs.getInt(1));
+            }
+        }catch (Exception e)
+        {
+            System.out.println("There is No such table");
+        }
+        return list;
+    }*/
+    public List<Integer> getPlayListSongsId(String playList)
     {
         con = getConnection();
         List<Integer> list = new ArrayList<>();
@@ -195,9 +211,9 @@ public class Dao implements Search {
         PlayList ply;
         try {
             st = con.createStatement();
-            rs = st.executeQuery("SELECT * FROM jukebox.playlist_name_list");
+            rs = st.executeQuery("SELECT * FROM jukebox.playlist_name_list"); //change this to manipulate the table
             while (rs.next()) {
-                ply = new PlayList(rs.getInt("name_counter"),rs.getString(2));
+                ply = new PlayList(rs.getInt("playlist_id"),rs.getString(2));
                 plylst.add(ply);
             }
         }catch (Exception e)

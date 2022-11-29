@@ -22,7 +22,7 @@ public class Menus {
         src  = new Scanner(System.in);
         int a = 0;
         try {
-            System.out.println("1. Show All Song\n2. Search Song\n3. Show Playlist\n4.Exit"); //54. Add Songs To DataBase
+            System.out.println("1. Show All Song\n2. Search Song\n3. Show Playlist\n4. Exit"); //54. Add Songs To DataBase
             a =  src.nextInt();
         }catch (InputMismatchException e)
         {
@@ -63,7 +63,7 @@ public class Menus {
         int a = 0;
         try {
             System.out.println("Edit List By");
-            System.out.println("1. Add Song to playList\n2. Delete Song from Playlist\n3. Delete PlayList");
+            System.out.println("1. Add Song to playList\n2. Delete Song from Playlist\n3. Delete PlayList\n4.Exit to Main");
             a =  src.nextInt();
         }catch (InputMismatchException e)
         {
@@ -96,11 +96,15 @@ public class Menus {
         System.out.println("                 ****Creator:- Selvam KS*****");
         System.out.println("**************************************************************");
     }
-    public void menuForsearch(TreeSet<String> temp){
+    public void menuForsearch(TreeSet<String> temp,String name){
         System.out.println("This are the available options");
+        System.out.println("+---------------------+");
+        System.out.format("| %-20s |\n",name);
+        System.out.println("+---------------------+");
         for (Object o: temp) {
-            System.out.println(o);
+            System.out.format("|< %-18s >|\n",o);
         }
+        System.out.println("+---------------------+");
     }
 
 }

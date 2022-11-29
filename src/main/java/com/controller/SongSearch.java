@@ -18,31 +18,31 @@ public class SongSearch {
         //displayAllSongs();
         switch (a)
         {
-            case 1:
+            case 1://search by song name
                 System.out.println("Enter The song Name");
                 String s_name = src.nextLine();
                 List<SongModel> byName = dao.bySongName(s_name);
                 myView.showSongs(byName);
                 audio.playAllSongs(byName);
             break;
-            case 2:
-                mnu.menuForsearch(bySongAlbummenu());
+            case 2://search by song album
+                mnu.menuForsearch(bySongAlbummenu(),"Album");
                 System.out.println("Enter The song Album");
                 String album = src.nextLine();
                 List<SongModel> byalbum = dao.bySongAlbum(album);
                 myView.showSongs(byalbum);
                 audio.playAllSongs(byalbum);
                 break;
-            case 3:
-                mnu.menuForsearch(bySongArtistmenu());
+            case 3://search by song artist
+                mnu.menuForsearch(bySongArtistmenu(),"Artist");
                 System.out.println("Enter The song Artist");
                 String artist = src.nextLine();
                 List<SongModel> byartist = dao.bySongArtist(artist);
                 myView.showSongs(byartist);
                 audio.playAllSongs(byartist);
                 break;
-            case 4:
-                mnu.menuForsearch(bySongGenermenu());
+            case 4://search by song genera
+                mnu.menuForsearch(bySongGenermenu(),"Genera");
                 System.out.println("Enter The song Gener");
                 String gener = src.nextLine();
                 List<SongModel> bygener = dao.bySongGener(gener);

@@ -22,8 +22,8 @@ public class Audio {
         while (i.hasNext())
         {
             String s = i.next();
-            System.out.println(s);
-            //audiogpo.AudioPlayerMethods(s);
+            //System.out.println(s);
+            audiogpo.AudioPlayerMethods(s);
             mnu.audioMenu();
             int a = 0;
                 do {
