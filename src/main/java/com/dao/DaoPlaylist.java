@@ -30,13 +30,11 @@ public class DaoPlaylist {
         try {
             st = con.createStatement();
             int tableUpdated = st.executeUpdate("INSERT INTO jukebox."+pL_Name+ "(playername,song_id) value ('"+pL_Name+"',"+song_idU+")");
-        }catch (MySQLQueryInterruptedException a)
-        {
-            System.out.println("Song_id "+song_idU+" Already added to play list");
+            System.out.println("Added Successfully");
         }
         catch (Exception e)
         {
-            System.out.println(e);
+            System.out.println("The Song is already added to your playlist you cannot create duplicate entry");
         }
     }
     public void deleteSongsInPlayList(String pL_Name,int song_idU)

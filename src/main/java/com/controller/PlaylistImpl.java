@@ -53,9 +53,9 @@ public class PlaylistImpl {
                             if (sogId.get(1) > 0) {
                                 List<SongModel> display = dao.displayPlayList(sogId);
                                 playDisplay.showSongs(display);
-                                mnu.audioPlayMenu();
                                 System.out.println("Chose THe options");
-                                int a = scanner.nextInt();
+
+                                int a = mnu.audioPlayMenu();
                                 if( a == 1)
                                     audioFileCollector(display);
                                 //else if (a == 2)

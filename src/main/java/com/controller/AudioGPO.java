@@ -40,7 +40,7 @@ public class AudioGPO {
         try{
             currentFrame=0L;
             clip.stop();
-            //clip.close();
+            clip.close();
         }
         catch(Exception e){
             System.out.println(e.getMessage());

@@ -2,6 +2,7 @@ package com.view;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.TreeSet;
 
 public class Menus {
     Scanner src = null;
@@ -21,7 +22,7 @@ public class Menus {
         src  = new Scanner(System.in);
         int a = 0;
         try {
-            System.out.println("1. Show All Song\n2. Search Song\n3. Show Playlist"); //54. Add Songs To DataBase
+            System.out.println("1. Show All Song\n2. Search Song\n3. Show Playlist\n4.Exit"); //54. Add Songs To DataBase
             a =  src.nextInt();
         }catch (InputMismatchException e)
         {
@@ -62,7 +63,7 @@ public class Menus {
         int a = 0;
         try {
             System.out.println("Edit List By");
-            System.out.println("1. Add Song to playList\n2. Delete Song from Play list\n3. Delete PlayList");
+            System.out.println("1. Add Song to playList\n2. Delete Song from Playlist\n3. Delete PlayList");
             a =  src.nextInt();
         }catch (InputMismatchException e)
         {
@@ -72,12 +73,34 @@ public class Menus {
     }
     public void audioMenu()
     {
-        System.out.println("---------------------------Dialog Box-------------------------------------");
-        System.out.println("1:Play songs\t2:Stop\t3:Pause\t4:Resume\t5:Restart\t6:LoopMusic\t0:Nest");
-        System.out.println("--------------------------------------------------------------------------");
+        System.out.println("---------------------------Dialog Box-------------------------------------------------------");
+        System.out.println("1:Play songs\t2:Stop\t3:Pause\t4:Resume\t5:Restart\t6:LoopMusic\t7.Exit the playlist\t0:Nest");
+        System.out.println("--------------------------------------------------------------------------------------------");
     }
-    public void audioPlayMenu()
+    public int audioPlayMenu()
     {
+        int a = 0;
+        try{
         System.out.println("1.play all Songs\n2.exit");
+        a =  src.nextInt();
+        }catch (InputMismatchException e)
+        {
+        System.out.println("Sorry, pls in put only the number that Provided");
+        }
+        return a;
     }
+    public void exitmsg()
+    {
+        System.out.println("ThankYou for using the jukebox hope you had a good experience");
+        System.out.println("*******************we will connect again*********************");
+        System.out.println("                 ****Creator:- Selvam KS*****");
+        System.out.println("**************************************************************");
+    }
+    public void menuForsearch(TreeSet<String> temp){
+        System.out.println("This are the available options");
+        for (Object o: temp) {
+            System.out.println(o);
+        }
+    }
+
 }
