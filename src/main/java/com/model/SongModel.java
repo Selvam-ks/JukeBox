@@ -8,16 +8,6 @@ public class SongModel {
     private String gener;
     private double duration;
     private String url;
-
-    public SongModel(int song_id, String song_name, String album, String artist, String gener, double duration) {
-        this.song_id = song_id;
-        this.song_name = song_name;
-        this.album = album;
-        this.artist = artist;
-        this.gener = gener;
-        this.duration = duration;
-    }
-
     public SongModel(int song_id, String song_name, String album, String artist, String gener, double duration, String url) {
         this.song_id = song_id;
         this.song_name = song_name;

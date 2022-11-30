@@ -3,6 +3,10 @@ package com.dao;
 import com.model.PlayList;
 import com.model.SongModel;
 import com.model.Search;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -16,9 +20,7 @@ public class Dao implements Search {
     {
         try{//it will load the driver and create a connectivity
             Class.forName("com.mysql.cj.jdbc.Driver");  //loading the driver
-            //System.out.println("driver loader");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/jukebox","root","root"); //connection establishing
-            //System.out.println("Connected");
         }catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -127,22 +129,6 @@ public class Dao implements Search {
         }
         return bySongArtistList;
     }
-    /*public List<Integer> getPlayListSongsId(String playList)   // with multi table
-    {
-        con = getConnection();
-        List<Integer> list = new ArrayList<>();
-        try{
-            st = con.createStatement();
-            rs = st.executeQuery("select song_id from jukebox."+playList);
-            while (rs.next()) {
-                list.add(rs.getInt(1));
-            }
-        }catch (Exception e)
-        {
-            System.out.println("There is No such table");
-        }
-        return list;
-    }*/
     public List<Integer> getPlayListSongsId(String playList)        // without multi table
     {con = getConnection();
         List<Integer> list = new ArrayList<>();
@@ -152,8 +138,7 @@ public class Dao implements Search {
             while (rs.next()) {
                 list.add(rs.getInt(1));
             }
-        }catch (Exception e)
-        {
+        }catch (Exception e) {
             System.out.println("There is No such table");
         }
         return list;
@@ -173,8 +158,7 @@ public class Dao implements Search {
                     PlayListSongs.add(songobj);
                 }
             }
-        }catch (Exception e)
-        {
+        }catch (Exception e) {
             System.out.println("The Exceptions..."+e.getMessage());
         }
         return  PlayListSongs;
@@ -210,10 +194,24 @@ public class Dao implements Search {
                 ply = new PlayList(rs.getInt("playlist_id"),rs.getString(2));
                 plylst.add(ply);
             }
-        }catch (Exception e)
-        {
+        }catch (Exception e) {
             System.out.println("The Exceptions..."+e.getMessage());
         }
         return plylst;
+    }
+    public void updateFileReader()
+    {
+        String filePath = "src/main/resources/update_info";
+        try(
+                FileReader fr = new FileReader(filePath);
+                BufferedReader br = new BufferedReader(fr);
+                ) {
+            String line;
+            while ((line = br.readLine())!=null){
+                System.out.println(line);
+            }
+
+        }catch (IOException e) {
+        }
     }
 }

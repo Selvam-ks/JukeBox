@@ -9,20 +9,16 @@ public class Menus {
     public void welcome()
     {
         System.out.println("******************************************");
-        System.out.println("*~~~~~~~~Welcome To The JukeBox~~~~~~~~~~*");
+        System.out.println("*~~~\uD83D\uDC96~~~Welcome To The JukeBox~~~~\uD83D\uDC96~~~~*");
+        System.out.println("       ****Version 3.1.0_(Beta)****");
         System.out.println("******************************************");
     }
-    /*public int menu() throws ExceptionHandler
-    {
-        System.out.println("1. Show All Song\n2. Search Song\n3. Show Playlist");
-        return src.nextInt();
-    }*/
     public int menu()
     {
         src  = new Scanner(System.in);
         int a = 0;
         try {
-            System.out.println("1. Show All Song\n2. Search Song Menu\n3. Playlist Menu\n4. Exit"); //54. Add Songs To DataBase
+            System.out.println("1. \uD83C\uDFB6Show All Song\uD83C\uDFB6\n2. \uD83C\uDFB6Search Song Menu\uD83C\uDFB6\n3. \uD83C\uDFB6Playlist Menu\uD83C\uDFB6\n4. Exit"); //54. Add Songs To DataBase
             a =  src.nextInt();
         }catch (InputMismatchException e)
         {
@@ -98,13 +94,17 @@ public class Menus {
     }
     public void menuForsearch(TreeSet<String> temp,String name){
         System.out.println("This are the available options");
-        System.out.println("+---------------------+");
+        System.out.println("+------------------------+");
         System.out.format("| %-20s |\n",name);
-        System.out.println("+---------------------+");
+        System.out.println("+------------------------+");
         for (Object o: temp) {
-            System.out.format("|< %-18s >|\n",o);
+            System.out.format("|<\uD83D\uDCBF %-18s >|\n",o);
         }
-        System.out.println("+---------------------+");
+        System.out.println("+------------------------+");
     }
-
+    public int userLoginMenu()
+    {
+        System.out.println("1. Sign-Up\n2. Sign-In\n3. Continue Without Sign-up");
+        return 2;
+    }
 }

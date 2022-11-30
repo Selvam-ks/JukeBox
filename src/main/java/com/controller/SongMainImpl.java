@@ -2,6 +2,7 @@ package com.controller;
 
 import com.dao.Audio;
 import com.dao.Dao;
+import com.dao.DaoPlaylist;
 import com.model.SongModel;
 import com.view.AllSongs;
 import com.view.Menus;
@@ -18,6 +19,7 @@ public class SongMainImpl {
         String ss;
         Menus mnu = new Menus();
         Audio audio = new Audio();
+        SongMainImpl smipl = new SongMainImpl();
         mnu.welcome();
         do {
             int option = mnu.menu();
@@ -38,7 +40,13 @@ public class SongMainImpl {
                 case 3://Show Playlist
                     plyLst.PlaylistOptions();
                 break;
-                case 4://Exit
+                case 4:// update information
+                    dps.updateFileReader();
+                    break;
+                case 5://Exit
+                    break;
+                case 1985://add songs to table
+                    smipl.addSongToDatabase();
                     break;
                 default:
                     System.out.println("No such option");
@@ -48,5 +56,34 @@ public class SongMainImpl {
                 ss = src.next().toUpperCase();
         }while (ss.equals("Y"));
         mnu.exitmsg();
+    }
+    public void addSongToDatabase() // it is not working prop
+    {
+        DaoPlaylist daPly = new DaoPlaylist();
+        String song_name;
+        String album;
+        String artist;
+        String gener;
+        double duration;
+        String url;
+        System.out.println("The song should be in .wav format");
+        System.out.println("Security Key");
+        if(src.nextInt() == 5891)
+        {
+            System.out.println("Enter the required details correctly instred of space use underscore ''_''");
+            System.out.println("Enter song name");
+            song_name = src.next();
+            System.out.println("Enter album name");
+            album = src.next();
+            System.out.println("Enter artist name");
+            artist = src.next();
+            System.out.println("Enter the genera");
+            gener = src.next();
+            System.out.println("Enter the Duration of song like example 4.13");
+            duration =src.nextDouble();
+            System.out.println("Enter the URL Correctly**");
+            url = src.next();
+            daPly.addSongToDataBase(song_name,album,artist,gener,duration,url);
+        }
     }
 }

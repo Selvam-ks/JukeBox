@@ -41,3 +41,21 @@ playlistImpl
                 }
                 return tableCreated;
             }*/
+
+Dao class
+/*public List<Integer> getPlayListSongsId(String playList)   // with multi table
+    {
+        con = getConnection();
+        List<Integer> list = new ArrayList<>();
+        try{
+            st = con.createStatement();
+            rs = st.executeQuery("select song_id from jukebox."+playList);
+            while (rs.next()) {
+                list.add(rs.getInt(1));
+            }
+        }catch (Exception e)
+        {
+            System.out.println("There is No such table");
+        }
+        return list;
+    }*/

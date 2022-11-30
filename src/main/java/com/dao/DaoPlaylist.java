@@ -89,5 +89,6 @@ public class DaoPlaylist {
         {
             System.out.println("The Exceptions..."+e.getMessage());
         }
+        System.out.println(tableUpdated);
     }
 }

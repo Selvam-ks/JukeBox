@@ -14,18 +14,22 @@ public class Audio {
     public void playAllSongs(List<SongModel> songmodel)
     {
         ArrayList<String> arrayUrl = new ArrayList<>();
+        ArrayList<String> arraysongname = new ArrayList<>();
         Menus mnu = new Menus();
         for (SongModel songModel : songmodel) {
             arrayUrl.add(songModel.getUrl());
+            arraysongname.add(songModel.getSong_name());
         }
         Iterator<String> i = arrayUrl.iterator();
-        while (i.hasNext())
+        Iterator<String> sn = arraysongname.iterator();
+        while (i.hasNext() && sn.hasNext())
         {
             String s = i.next();
             //System.out.println(s);
             audiogpo.AudioPlayerMethods(s);
             mnu.audioMenu();
             int a = 0;
+            System.out.println("Your Playing this Song :- "+sn.next());
                 do {
                     try {
                         System.out.println("Enter a Choice");
@@ -68,6 +72,8 @@ public class Audio {
             audiogpo.stopAudio();
             if (exit.equals("exit"))
                 break;
+
+            System.out.println("!***Play list Ended***!\uD83D\uDE00");
         }
     }
 }
