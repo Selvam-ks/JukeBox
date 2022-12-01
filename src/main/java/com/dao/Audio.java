@@ -64,8 +64,6 @@ public class Audio {
                     }catch (Exception e) {
                         System.out.println("Sorry, pls in put only the number that Provided");
                     }
-                /*System.out.println("Zero(0) for Next Song");
-                a= src.nextInt();*/
                     if (exit.equals("exit"))
                         break;
                 } while (a != 0);

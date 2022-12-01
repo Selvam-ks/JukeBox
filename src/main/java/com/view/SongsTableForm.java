@@ -4,7 +4,7 @@ import java.util.List;
 import com.model.PlayList;
 import  com.model.SongModel;
 
-public class AllSongs {
+public class SongsTableForm {
     public void showSongs(List<SongModel> songList)
     {
         System.out.println("+--------------------------------------------------------------------------------------------+");
@@ -18,7 +18,7 @@ public class AllSongs {
         System.out.println("+-------------------X-------------------------X---------------------X------------------------+");
     }
     public void playList(List<PlayList> playLists) {
-        System.out.println("+-------------------------------+");
+        System.out.println("+------------\uD83D\uDD7A----------------+");
         System.out.format("| %-11s | %-15s |\n","PlayList_id","PlayList");
         System.out.println("+-------------------------------+");
         for (PlayList o : playLists) {

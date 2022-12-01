@@ -4,7 +4,7 @@ import com.dao.Audio;
 import com.dao.Dao;
 import com.dao.DaoPlaylist;
 import com.model.SongModel;
-import com.view.AllSongs;
+import com.view.SongsTableForm;
 import com.view.Menus;
 
 import java.util.List;
@@ -27,7 +27,7 @@ public class SongMainImpl {
             {
                 case 1://display all songs
                     List<SongModel> songmodel = dps.getAllSongs();
-                    AllSongs myview = new AllSongs();
+                    SongsTableForm myview = new SongsTableForm();
                     myview.showSongs(songmodel);
                     int a = mnu.audioPlayMenu();
                     if(a == 1)
@@ -57,8 +57,8 @@ public class SongMainImpl {
         }while (ss.equals("Y"));
         mnu.exitmsg();
     }
-    public void addSongToDatabase() // it is not working prop
-    {
+    // it is not working prop 'URL' under Alpha Programing not for public use.
+    public void addSongToDatabase() {
         DaoPlaylist daPly = new DaoPlaylist();
         String song_name;
         String album;
@@ -68,8 +68,7 @@ public class SongMainImpl {
         String url;
         System.out.println("The song should be in .wav format");
         System.out.println("Security Key");
-        if(src.nextInt() == 5891)
-        {
+        if(src.nextInt() == 5891) {
             System.out.println("Enter the required details correctly instred of space use underscore ''_''");
             System.out.println("Enter song name");
             song_name = src.next();
@@ -83,7 +82,7 @@ public class SongMainImpl {
             duration =src.nextDouble();
             System.out.println("Enter the URL Correctly**");
             url = src.next();
-            daPly.addSongToDataBase(song_name,album,artist,gener,duration,url);
+            //daPly.addSongToDataBase(song_name,album,artist,gener,duration,url);
         }
     }
 }

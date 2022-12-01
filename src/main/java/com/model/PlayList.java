@@ -3,7 +3,6 @@ package com.model;
 public class PlayList {
     private int song_id_playlist;
     private String playListName;
-
     public PlayList() {
     }
     public PlayList(int song_id_playlist, String playListName) {

@@ -2,7 +2,7 @@ package com.controller;
 import com.dao.Audio;
 import com.dao.Dao;
 import com.model.SongModel;
-import com.view.AllSongs;
+import com.view.SongsTableForm;
 import com.view.Menus;
 
 import java.util.*;
@@ -14,7 +14,7 @@ public class SongSearch {
     Menus mnu = new Menus();
     public void searchSongProcess(int a)
     {
-        AllSongs myView = new AllSongs();
+        SongsTableForm myView = new SongsTableForm();
         //displayAllSongs();
         switch (a)
         {
@@ -57,7 +57,7 @@ public class SongSearch {
     public void displayAllSongs()
     {
         List<SongModel> songmodel = dao.getAllSongs();
-        AllSongs myview = new AllSongs();
+        SongsTableForm myview = new SongsTableForm();
         myview.showSongs(songmodel);
     }
     public TreeSet<String> bySongAlbummenu()

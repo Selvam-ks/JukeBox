@@ -5,7 +5,7 @@ import com.dao.Dao;
 import com.dao.DaoPlaylist;
 import com.model.PlayList;
 import com.model.SongModel;
-import com.view.AllSongs;
+import com.view.SongsTableForm;
 import com.view.Menus;
 
 import java.util.List;
@@ -28,7 +28,7 @@ public class PlaylistImpl {
     {
         do {
             int option = mnu.playlistMenu();
-            AllSongs playDisplay = new AllSongs();
+            SongsTableForm playDisplay = new SongsTableForm();
             List<PlayList> ply = dao.displayPlayList();
             switch (option) {
                 case 1: //create play list
@@ -38,7 +38,7 @@ public class PlaylistImpl {
                     playDisplay.playList(ply);
                     pL_Name = scanner.next();
                         List<Integer> sogId = dao.getPlayListSongsId(pL_Name);// getting all song id from the play table
-                        System.out.println("\t\t  ----------------------------------" + pL_Name + "-----------------------------------");
+                        System.out.println("\t\t  -------------------------------\uD83D\uDD7A" + pL_Name + "\uD83D\uDD7A--------------------------------");
                         try {
                             if (sogId.get(1) > 0) {
                                 List<SongModel> display = dao.displayPlayList(sogId);
@@ -89,7 +89,7 @@ public class PlaylistImpl {
     {
         int song_idU;
         List<SongModel> songmodel = dao.getAllSongs();
-        AllSongs myview = new AllSongs();
+        SongsTableForm myview = new SongsTableForm();
         myview.showSongs(songmodel);
         do {
             System.out.println("Enter the correct song_id From the above list or Press 0 to Exit");
@@ -105,12 +105,12 @@ public class PlaylistImpl {
     }
     public void deleteSongsFormPlayList()
     {
-        AllSongs playDisplay = new AllSongs();
+        SongsTableForm playDisplay = new SongsTableForm();
         List<PlayList> ply = dao.displayPlayList();
         playDisplay.playList(ply);
         pL_Name = scanner.next();
         List<Integer> sogId = dao.getPlayListSongsId(pL_Name);
-        System.out.println("\t\t  ----------------------------------"+pL_Name+"-----------------------------------");
+        System.out.println("\t\t  -------------------------------\uD83D\uDD7A"+pL_Name+"\uD83D\uDD7A--------------------------------");
         try {
             if (sogId.get(1) >0) {
                 List<SongModel> display = dao.displayPlayList(sogId);
@@ -124,7 +124,7 @@ public class PlaylistImpl {
     }
     public void deletePlayList()
     {
-        AllSongs playDisplay = new AllSongs();
+        SongsTableForm playDisplay = new SongsTableForm();
         List<PlayList> ply = dao.displayPlayList();
         playDisplay.playList(ply);
         pL_Name = scanner.next();

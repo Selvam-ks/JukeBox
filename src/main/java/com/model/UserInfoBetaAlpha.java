@@ -1,10 +1,10 @@
-package com.dao;
+package com.model;
 
-public class UserInfo {
+public class UserInfoBetaAlpha {
     private String user_name;
     private String user_pass;
 
-    public UserInfo(String user_name, String user_pass) {
+    public UserInfoBetaAlpha(String user_name, String user_pass) {
         this.user_name = user_name;
         this.user_pass = user_pass;
     }

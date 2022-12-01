@@ -73,7 +73,8 @@ public class DaoPlaylist {
             System.out.println("PlayList Deleted Successfully");
         else System.out.println("data Not Found");
     }
-    public void addSongToDataBase(String song_name, String album, String artist, String gener, double duration, String url)
+    //under BETA testing
+    /*public void addSongToDataBase(String song_name, String album, String artist, String gener, double duration, String url)
     {
         con=getConnection();
         int tableUpdated = 0;
@@ -90,5 +91,5 @@ public class DaoPlaylist {
             System.out.println("The Exceptions..."+e.getMessage());
         }
         System.out.println(tableUpdated);
-    }
+    }*/
 }

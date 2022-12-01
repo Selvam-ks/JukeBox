@@ -2,7 +2,7 @@ package com.dao;
 
 import com.model.PlayList;
 import com.model.SongModel;
-import com.model.Search;
+import com.model.SearchSongsBy;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -11,7 +11,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-public class Dao implements Search {
+public class Dao implements SearchSongsBy {
     static Connection con = null;
     ResultSet rs=null;
     Statement st=null;
@@ -19,7 +19,7 @@ public class Dao implements Search {
     public static Connection getConnection()
     {
         try{//it will load the driver and create a connectivity
-            Class.forName("com.mysql.cj.jdbc.Driver");  //loading the driver
+            //Class.forName("com.mysql.cj.jdbc.Driver");  //loading the driver
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/jukebox","root","root"); //connection establishing
         }catch (Exception e) {
             System.out.println(e.getMessage());
