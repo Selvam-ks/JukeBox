@@ -1,9 +1,6 @@
 package com.dao;
-import com.model.UserInfo;
-import com.mysql.cj.jdbc.exceptions.MySQLQueryInterruptedException;
 
 import java.sql.*;
-
 import static com.dao.Dao.getConnection;
 import static com.model.UserInfo.getUSER;
 public class DaoPlaylist {
@@ -45,7 +42,7 @@ public class DaoPlaylist {
     public void addSongsToPlayList(int pL_Id,int song_idU)         //without multi-table // testing user collector
     {
         con = getConnection();
-        int rowAdded = 0;
+        int rowAdded;
         try {
             st = con.createStatement();
             pst = con.prepareStatement("INSERT INTO jukebox.playlist_collector (song_id,playlist_id,user_id) value (?,?,?)");
@@ -68,7 +65,7 @@ public class DaoPlaylist {
             st = con.createStatement();
             tableUpdated = st.executeUpdate("DELETE FROM jukebox.playlist_collector WHERE (`song_id` = "+song_idU+" and playlist_id = "+pL_id+")");
         }catch (Exception e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
         if(tableUpdated !=0)
             System.out.println("Deleted Successfully");
@@ -92,7 +89,7 @@ public class DaoPlaylist {
         else System.out.println("data Not Found");
     }
     //under BETA testing
-    /*public void addSongToDataBase(String song_name, String album, String artist, String gener, double duration, String url)
+    public void addSongToDataBase(String song_name, String album, String artist, String gener, double duration, String url)
     {
         con=getConnection();
         int tableUpdated = 0;
@@ -100,14 +97,15 @@ public class DaoPlaylist {
             pst = con.prepareStatement("insert into jukebox.songs (song_name,album,artist,gener,duration,url) VALUES (?,?,?,?,?,?)");
             pst.setString(1,song_name);
             pst.setString(2,album);
-            pst.setString(3,album);
-            pst.setDouble(4,duration);
-            pst.setString(5,url);
+            pst.setString(3,artist);
+            pst.setString(4,gener);
+            pst.setDouble(5,duration);
+            pst.setString(6,url);
             tableUpdated = pst.executeUpdate();
         }catch (Exception e)
         {
             System.out.println("The Exceptions..."+e.getMessage());
         }
         System.out.println(tableUpdated);
-    }*/
+    }
 }

@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Scanner;
 public class Audio {
     AudioGPO audiogpo = new AudioGPO();
-    Scanner src = new Scanner(System.in);
     String exit ="";
     public void playAllSongs(List<SongModel> songmodel)
     {
@@ -37,30 +36,23 @@ public class Audio {
                         Scanner src1 = new Scanner(System.in);
                         a = src1.nextInt();
                         switch (a) {
-                            case 1://play music
-                                audiogpo.playAudio();
-                                break;
-                            case 2://stop music
-                                audiogpo.stopAudio();
-                                break;
-                            case 3://pause music
-                                audiogpo.pauseAudio();
-                                break;
-                            case 4://resume
-                                audiogpo.resumeAudio();
-                                break;
-                            case 5://restart
-                                audiogpo.restartAudio();
-                                break;
-                            case 6:
-                                audiogpo.loopAudio();
-                                break;
-                            case 7:
+                            case 1 ->//play music
+                                    audiogpo.playAudio();
+                            case 2 ->//stop music
+                                    audiogpo.stopAudio();
+                            case 3 ->//pause music
+                                    audiogpo.pauseAudio();
+                            case 4 ->//resume
+                                    audiogpo.resumeAudio();
+                            case 5 ->//restart
+                                    audiogpo.restartAudio();
+                            case 6 -> audiogpo.loopAudio();
+                            case 7 -> {
                                 exit = "exit";
                                 System.out.println("!***Play list Ended***!\uD83D\uDE00");
-                                break;
-                            default:
-                                break;
+                            }
+                            default -> {
+                            }
                         }
                     }catch (Exception e) {
                         System.out.println("Sorry, pls in put only the number that Provided");

@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 public class UserInfo {
     private static boolean IsLOGIN=false;
-    private static boolean DEMO=true;
     private static int USER;
     private int user_id;
     private String user_name;
@@ -40,14 +39,6 @@ public class UserInfo {
     }
     public static void setUSER(int USER) {
         UserInfo.USER = USER;
-    }
-
-    public boolean isDEMO() {
-        return DEMO;
-    }
-
-    public void setDEMO(boolean DEMO) {
-        UserInfo.DEMO = DEMO;
     }
 
     public int getUser_id() {

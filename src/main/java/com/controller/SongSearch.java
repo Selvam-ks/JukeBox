@@ -16,54 +16,53 @@ public class SongSearch {
     {
         SongsTableForm myView = new SongsTableForm();
         //displayAllSongs();
-        switch (a)
-        {
-            case 1://search by song name
+        switch (a) {
+            case 1 -> {//search by song name
                 System.out.println("Enter The song Name");
                 String s_name = src.next();
-                s_name+=src.nextLine();
+                s_name += src.nextLine();
                 List<SongModel> byName = dao.bySongName(s_name);
                 myView.showSongs(byName);
                 audio.playAllSongs(byName);
-            break;
-            case 2://search by song album
-                mnu.menuForsearch(bySongAlbummenu(),"Album");
+            }
+            case 2 -> {//search by song album
+                mnu.menuForsearch(bySongAlbummenu(), "Album");
                 System.out.println("Enter The song Album");
                 String album = src.next();
-                album+=src.nextLine();
+                album += src.nextLine();
                 List<SongModel> byalbum = dao.bySongAlbum(album);
                 myView.showSongs(byalbum);
                 audio.playAllSongs(byalbum);
-                break;
-            case 3://search by song artist
-                mnu.menuForsearch(bySongArtistmenu(),"Artist");
+            }
+            case 3 -> {//search by song artist
+                mnu.menuForsearch(bySongArtistmenu(), "Artist");
                 System.out.println("Enter The song Artist");
                 String artist = src.next();
-                artist+=src.nextLine();
+                artist += src.nextLine();
                 List<SongModel> byartist = dao.bySongArtist(artist);
                 myView.showSongs(byartist);
                 audio.playAllSongs(byartist);
-                break;
-            case 4://search by song genera
-                mnu.menuForsearch(bySongGenermenu(),"Genera");
+            }
+            case 4 -> {//search by song genera
+                mnu.menuForsearch(bySongGenermenu(), "Genera");
                 System.out.println("Enter The song Gener");
                 String gener = src.next();
-                gener+=src.nextLine();
+                gener += src.nextLine();
                 List<SongModel> bygener = dao.bySongGener(gener);
                 myView.showSongs(bygener);
                 audio.playAllSongs(bygener);
-                break;
-            case 5:
+            }
+            case 5 -> {
                 System.out.println("enter name");
                 String stWith = src.next();
-                stWith+=src.nextLine();;
+                stWith += src.nextLine();
                 List<SongModel> byStartWith = dao.bySongNameStartWith(stWith);
                 myView.showSongs(byStartWith);
                 audio.playAllSongs(byStartWith);
-                break;
-            default:
-                //System.out.println("no suck input");
-                break;
+            }
+            default -> {
+            }
+            //System.out.println("no suck input");
         }
     }
     public void displayAllSongs()

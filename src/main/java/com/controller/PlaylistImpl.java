@@ -7,8 +7,6 @@ import com.model.PlayList;
 import com.model.SongModel;
 import com.view.SongsTableForm;
 import com.view.Menus;
-
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -33,40 +31,39 @@ public class PlaylistImpl {
             SongsTableForm playDisplay = new SongsTableForm();
             List<PlayList> ply = dao.displayPlayList();
             switch (option) {
-                case 1: //create play list
-                    createNewPlayList();
-                    break;
-                case 2: // View Existing Playlist
+                case 1 -> //create play list
+                        createNewPlayList();
+                case 2 -> { // View Existing Playlist
                     playDisplay.playList(ply);
-                    if (ply.size()==0)
+                    if (ply.size() == 0)
                         break;
                     pL_Name = scanner.next();
                     this.pL_id = daoPlaylist.getPlayListId(pL_Name);
-                        List<Integer> sogId = dao.getPlayListSongsId(pL_id);// getting all song id from the play table
-                        System.out.println("\t\t  -------------------------------\uD83D\uDD7A" + pL_Name + "\uD83D\uDD7A--------------------------------");
-                        try {
-                            if (sogId.size() > 0) {
-                                List<SongModel> display = dao.displayPlayList(sogId);
-                                playDisplay.showSongs(display);
-                                System.out.println("Chose THe options");
-                                int a = mnu.audioPlayMenu();
-                                if( a == 1)
-                                    audioFileCollector(display);
-                                //else if (a == 2)
-                            }else
-                                System.out.println("No song found");
-                        } catch (Exception ignored) {
+                    List<Integer> sogId = dao.getPlayListSongsId(pL_id);// getting all song id from the play table
+                    System.out.println("\t\t  -------------------------------\uD83D\uDD7A" + pL_Name + "\uD83D\uDD7A--------------------------------");
+                    try {
+                        if (sogId.size() > 0) {
+                            List<SongModel> display = dao.displayPlayList(sogId);
+                            playDisplay.showSongs(display);
+                            System.out.println("Chose THe options");
+                            int a = mnu.audioPlayMenu();
+                            if (a == 1)
+                                audioFileCollector(display);
+                            //else if (a == 2)
+                        } else
+                            System.out.println("No song found");
+                    } catch (Exception ignored) {
 //                            System.out.println("There is no such playlist or check the Spelling");
-                        }
-                    break;
-                case 3://added editing to play list
+                    }
+                }
+                case 3 -> {//added editing to play list
                     int a = mnu.editPlayListMenu();
-                    if(a ==1){                      //add songs to existing playlist
+                    if (a == 1) {                      //add songs to existing playlist
                         playDisplay.playList(ply);
                         pL_Name = scanner.next();
                         this.pL_id = daoPlaylist.getPlayListId(pL_Name);
                         for (PlayList p : ply) {
-                            if(pL_Name.equals(p.getPlayListName()))
+                            if (pL_Name.equals(p.getPlayListName()))
                                 addSongToPlayList();
                         }
                         System.out.println("PlayList Not Found");
@@ -74,8 +71,8 @@ public class PlaylistImpl {
                         deleteSongsFormPlayList();//System.out.println("delete songs");
                     } else if (a == 3) {
                         deletePlayList();
-                    }else System.out.println("wrong option");
-                    break;
+                    } else System.out.println("wrong option");
+                }
             }
             System.out.println("Would like to Retry (Press 1 for Retry) OR Exit to Main (Press 0 for exit)");
         }while (scanner.nextInt()!=0);

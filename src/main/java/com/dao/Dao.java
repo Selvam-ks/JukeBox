@@ -3,7 +3,6 @@ package com.dao;
 import com.model.PlayList;
 import com.model.SongModel;
 import com.model.SearchSongsBy;
-import com.mysql.cj.Query;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -12,7 +11,6 @@ import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -177,8 +175,8 @@ public class Dao implements SearchSongsBy {
         con=getConnection();
         List<SongModel> PlayListSongs = new ArrayList<>();
         try{
-//            String inSql = String.join(",", Collections.nCopies(songId.size(),"?"));
-//            System.out.println(inSql);
+            String inSql = String.join(",", Collections.nCopies(songId.size(),"?"));
+            System.out.println(inSql);
             for (Integer integer : songId) {
                 st = con.createStatement();
                 rs = st.executeQuery("select * from jukebox.songs where song_Id =" + integer);
@@ -199,7 +197,7 @@ public class Dao implements SearchSongsBy {
         List<SongModel> PlayListSongs = new ArrayList<>();
         try{
             con=getConnection();
-            String inSql = String.join(",", Collections.nCopies(songId.size(),"?"));
+//            String inSql = String.join(",", Collections.nCopies(songId.size(),"?"));
             st = con.createStatement();
             pst = con.prepareStatement("select * from jukebox.songs where (song_Id) in (?)");
             pst.setAsciiStream(1, (InputStream) songId,songId.size());
@@ -255,14 +253,14 @@ public class Dao implements SearchSongsBy {
         String filePath = "src/main/resources/update_info";
         try(
                 FileReader fr = new FileReader(filePath);
-                BufferedReader br = new BufferedReader(fr);
+                BufferedReader br = new BufferedReader(fr)
                 ) {
             String line;
             while ((line = br.readLine())!=null){
                 System.out.println(line);
             }
 
-        }catch (IOException e) {
+        }catch (IOException ignored) {
         }
     }
 }

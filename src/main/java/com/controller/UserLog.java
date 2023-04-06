@@ -11,7 +11,6 @@ public class UserLog{
     public int signUp(){
         Scanner src = new Scanner(System.in);
         UserInfo info = new UserInfo();
-        boolean flag = true;
         int a;
         System.out.println("Welcome To Registration");
         System.out.println("Enter Username");
@@ -23,7 +22,7 @@ public class UserLog{
             a = dao.signUp(info);
         return a;
     }
-    public String login(){
+    public void login(){
         Scanner src = new Scanner(System.in);
         UserInfo info = new UserInfo();
         System.out.println("Welcome To Login");
@@ -37,13 +36,12 @@ public class UserLog{
         info.setUser_name(name);
         dao.login(info);
 //        System.out.println(info.isIsLOGIN()+" after same object  "+info.getUSER());
-        return null;
     }
 
     private String passwordConform(){
         Scanner src = new Scanner(System.in);
         String password=null;
-        boolean flag=false;
+        boolean flag;
         boolean fail = false;
         do{
             if(fail){

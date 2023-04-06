@@ -3,16 +3,13 @@ package com.controller;
 import com.dao.Audio;
 import com.dao.Dao;
 import com.dao.DaoPlaylist;
-import com.dao.UserDAO;
+import com.dao.SongLoader;
 import com.model.SongModel;
 import com.model.UserInfo;
 import com.view.SongsTableForm;
 import com.view.Menus;
-
-import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Set;
 
 public class SongMainImpl {
     static Dao dps = new Dao();
@@ -20,8 +17,13 @@ public class SongMainImpl {
     static SongSearch songSearch = new SongSearch();
     static Scanner src = new Scanner(System.in);
     static PlaylistImpl plyLst = new PlaylistImpl();
+    static List<SongModel> songModel;
+
+    public static void setSongModel(List<SongModel> songModel) {
+        SongMainImpl.songModel = songModel;
+    }
+
     public static void main(String[] args) {
-        UserInfo info  = new UserInfo();
         String ss = "N";
         Menus mnu = new Menus();
         Audio audio = new Audio();
@@ -30,57 +32,53 @@ public class SongMainImpl {
         boolean repert = false;
         boolean exit = false;
         if(userManage())
-            if (info.isIsLOGIN()){
+            if (UserInfo.isIsLOGIN()){
                 userLoggedIn();
             }
         else {
             do {
+                Thread thread = new Thread(new SongLoader());
+                thread.start();
                 int option = mnu.menu();
-                switch (option)
-                {
-                    case 1://display all songs
-                        List<SongModel> songmodel = dps.getAllSongs();
+                switch (option) {
+                    case 1 -> {//display all songs
+
                         SongsTableForm myview = new SongsTableForm();
-                        myview.showSongs(songmodel);
+                        myview.showSongs(songModel);
                         int a = mnu.audioPlayMenu();
-                        if(a == 1)
-                            audio.playAllSongs(songmodel);
-                        repert=false;
-                        ss="Y";
-                        break;
-                    case 2://Search Song
+                        if (a == 1)
+                            audio.playAllSongs(songModel);
+                        repert = false;
+                        ss = "Y";
+                    }
+                    case 2 -> {//Search Song
                         songSearch.displayAllSongs();
                         songSearch.searchSongProcess(mnu.searchSongList());
-                        repert=false;
-                        ss="Y";
-                        break;
-                    case 3://Show Playlist
-                        if(info.isIsLOGIN()){
+                        repert = false;
+                        ss = "Y";
+                    }
+                    case 3 -> {//Show Playlist
+                        if (UserInfo.isIsLOGIN()) {
                             plyLst.PlaylistOptions();
-                        }else {
+                        } else {
                             System.out.println("Pls login");
                             userManage();
                         }
-                        repert=false;
-                        ss="N";
-                        break;
-                    case 4:
-                        userManage();
-                        break;
-                    case 5:// update information
+                        repert = false;
+                        ss = "N";
+                    }
+                    case 4 -> userManage();
+                    case 5 -> {// update information
                         dps.updateFileReader();
                         repert = true;
-                        break;
-                    case 6://Exit
+                    }
+                    case 6 -> {//Exit
                         repert = true;
-                        exit =true;
-                        break;
-                    case 1985://add songs to table
-                        smipl.addSongToDatabase();
-                        break;
-                    default:
-                        System.out.println("No such option");
-                        break;
+                        exit = true;
+                    }
+                    case 1985 ->//add songs to table
+                            smipl.addSongToDatabase();
+                    default -> System.out.println("No such option");
                 }
                 if(repert)
                     if(!exit){
@@ -101,13 +99,12 @@ public class SongMainImpl {
     }
 
     public static boolean userManage(){
-        UserInfo info  = new UserInfo();
         String ss = "N";
         Menus mnu = new Menus();
         boolean repert = false;
         boolean exit = false;
         boolean demo = true;
-        if (!info.isIsLOGIN())
+        if (!UserInfo.isIsLOGIN())
             do {
                 int option = mnu.userLoginMenu();
                 switch (option) {
@@ -119,7 +116,7 @@ public class SongMainImpl {
                             if(a == 1){
                                 flag= false;
                                 userLog.login();
-                                if(info.isIsLOGIN()){
+                                if(UserInfo.isIsLOGIN()){
                                     userLoggedIn();
                                 }else {
                                     repert = false;
@@ -137,7 +134,7 @@ public class SongMainImpl {
                     }
                     case 2 -> {// LogIn
                         userLog.login();
-                        if(info.isIsLOGIN()){
+                        if(UserInfo.isIsLOGIN()){
                             userLoggedIn();
                         }else {
                             repert = false;
@@ -177,66 +174,62 @@ public class SongMainImpl {
         return demo;
     }
     public static void userLoggedIn(){
-        UserInfo info  = new UserInfo();
         String ss = "N";
         Menus mnu = new Menus();
         Audio audio = new Audio();
         SongMainImpl smipl = new SongMainImpl();
         boolean repert = false;
-        String logOut ="";
-        if (info.isIsLOGIN())
+        if (UserInfo.isIsLOGIN())
             do {
+                Thread thread = new Thread(new SongLoader());
+                thread.start();
                 int option = mnu.userMenu();
-                switch (option)
-                {
-                    case 1://display all songs
-                        List<SongModel> songmodel = dps.getAllSongs();
+                switch (option) {
+                    case 1 -> {//display all songs
                         SongsTableForm myview = new SongsTableForm();
-                        myview.showSongs(songmodel);
+                        myview.showSongs(songModel);
                         int a = mnu.audioPlayMenu();
-                        if(a == 1)
-                            audio.playAllSongs(songmodel);
-                        repert=false;
-                        ss="Y";
-                        break;
-                    case 2://Search Song
+                        if (a == 1)
+                            audio.playAllSongs(songModel);
+                        repert = false;
+                        ss = "Y";
+                    }
+                    case 2 -> {//Search Song
                         songSearch.displayAllSongs();
                         songSearch.searchSongProcess(mnu.searchSongList());
-                        repert=false;
-                        ss="Y";
-                        break;
-                    case 3://Show Playlist
-                        if(info.isIsLOGIN()){
+                        repert = false;
+                        ss = "Y";
+                    }
+                    case 3 -> {//Show Playlist
+                        if (UserInfo.isIsLOGIN()) {
                             plyLst.PlaylistOptions();
                         }
-                        repert=false;
-                        ss="Y";
-                        break;
-                    case 4:// update information
+                        repert = false;
+                        ss = "Y";
+                    }
+                    case 4 -> {// update information
                         dps.updateFileReader();
                         repert = false;
-                        ss="Y";
-                        break;
-                    case 5://LogOut
+                        ss = "Y";
+                    }
+                    case 5 -> {//LogOut
                         System.out.println("Would you like to logOut [Y/N]");
                         String lg = src.next().toUpperCase();
-                        if(lg.equals("Y")){
-                            info.setIsLOGIN(false);
-                            info.setUSER(0);
-                            repert=false;
-                            ss="N";
-                        }else {
-                            repert=false;
-                            ss="Y";
+                        if (lg.equals("Y")) {
+                            UserInfo.setIsLOGIN(false);
+                            UserInfo.setUSER(0);
+                            repert = false;
+                            ss = "N";
+                        } else {
+                            repert = false;
+                            ss = "Y";
                         }
-                        break;
-                    case 1985://add songs to table
+                    }
+                    case 1985 -> {//add songs to table
                         smipl.addSongToDatabase();
-                        repert=true;
-                        break;
-                    default:
-                        System.out.println("No such option");
-                        break;
+                        repert = true;
+                    }
+                    default -> System.out.println("No such option");
                 }
                 if(repert){
                     System.out.println("Would you like to Repeat The Main menu Or Exit [Y/N]");
@@ -271,7 +264,7 @@ public class SongMainImpl {
             duration =src.nextDouble();
             System.out.println("Enter the URL Correctly**");
             url = src.next();
-            //daPly.addSongToDataBase(song_name,album,artist,gener,duration,url);
+            daPly.addSongToDataBase(song_name,album,artist,gener,duration,url);
         }
     }
 }

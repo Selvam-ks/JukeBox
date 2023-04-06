@@ -106,7 +106,7 @@ public class Menus {
     public int userLoginMenu()
     {
         src  = new Scanner(System.in);
-        int a = 0;
+        int a;
         System.out.println("1. Sign-Up\n2. Sign-In\n3. Continue Without Sign-up\n4. updates info\n5. Exit");
         a =  src.nextInt();
         return a;

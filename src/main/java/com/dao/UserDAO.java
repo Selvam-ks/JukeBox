@@ -1,15 +1,12 @@
 package com.dao;
 
-import com.model.SongModel;
 import com.model.UserInfo;
 import com.model.UserLogs;
-
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.sql.*;
-import java.util.Arrays;
 
 import static com.dao.Dao.getConnection;
 import static com.model.UserInfo.setIsLOGIN;
@@ -24,7 +21,6 @@ public class UserDAO implements UserLogs {
     @Override
     public int signUp(UserInfo userInfo) {
         con = getConnection();
-        String user_id="";
         byte[] salt= createdSalt();
         int rowAdded = 0;
         try {
