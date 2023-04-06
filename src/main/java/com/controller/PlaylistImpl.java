@@ -8,6 +8,7 @@ import com.model.SongModel;
 import com.view.SongsTableForm;
 import com.view.Menus;
 
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -16,6 +17,7 @@ public class PlaylistImpl {
     Dao dao = new Dao();
     DaoPlaylist daoPlaylist = new DaoPlaylist();
     String pL_Name;
+    int pL_id;
     static Scanner scanner = new Scanner(System.in);
     Audio audio = new Audio();
 
@@ -36,11 +38,14 @@ public class PlaylistImpl {
                     break;
                 case 2: // View Existing Playlist
                     playDisplay.playList(ply);
+                    if (ply.size()==0)
+                        break;
                     pL_Name = scanner.next();
-                        List<Integer> sogId = dao.getPlayListSongsId(pL_Name);// getting all song id from the play table
+                    this.pL_id = daoPlaylist.getPlayListId(pL_Name);
+                        List<Integer> sogId = dao.getPlayListSongsId(pL_id);// getting all song id from the play table
                         System.out.println("\t\t  -------------------------------\uD83D\uDD7A" + pL_Name + "\uD83D\uDD7A--------------------------------");
                         try {
-                            if (sogId.get(1) > 0) {
+                            if (sogId.size() > 0) {
                                 List<SongModel> display = dao.displayPlayList(sogId);
                                 playDisplay.showSongs(display);
                                 System.out.println("Chose THe options");
@@ -48,8 +53,8 @@ public class PlaylistImpl {
                                 if( a == 1)
                                     audioFileCollector(display);
                                 //else if (a == 2)
-
-                            }
+                            }else
+                                System.out.println("No song found");
                         } catch (Exception ignored) {
 //                            System.out.println("There is no such playlist or check the Spelling");
                         }
@@ -59,6 +64,7 @@ public class PlaylistImpl {
                     if(a ==1){                      //add songs to existing playlist
                         playDisplay.playList(ply);
                         pL_Name = scanner.next();
+                        this.pL_id = daoPlaylist.getPlayListId(pL_Name);
                         for (PlayList p : ply) {
                             if(pL_Name.equals(p.getPlayListName()))
                                 addSongToPlayList();
@@ -79,9 +85,10 @@ public class PlaylistImpl {
         System.out.println("Enter PlayList Name Without Space:-");
         pL_Name= scanner.next();
         int tableUpdate = daoPlaylist.createPlayListNew(pL_Name);
-        System.out.println(tableUpdate);
+        //System.out.println(tableUpdate);
         if(tableUpdate == 1) {
             System.out.println("playlist is created Successfully for "+pL_Name);
+            this.pL_id = daoPlaylist.getPlayListId(pL_Name);
             addSongToPlayList();
         }
     }
@@ -93,10 +100,10 @@ public class PlaylistImpl {
         myview.showSongs(songmodel);
         do {
             System.out.println("Enter the correct song_id From the above list or Press 0 to Exit");
-            song_idU = scanner.nextInt();
+                song_idU = scanner.nextInt();
             if (song_idU != 0) {
                 if (dao.checkSong_id(song_idU)) {
-                   daoPlaylist.addSongsToPlayList(pL_Name, song_idU);
+                   daoPlaylist.addSongsToPlayList(pL_id, song_idU);
                 } else System.out.println("No such song id");
             } else {
                 System.out.println("Exiting to the Main menu");
@@ -109,15 +116,17 @@ public class PlaylistImpl {
         List<PlayList> ply = dao.displayPlayList();
         playDisplay.playList(ply);
         pL_Name = scanner.next();
-        List<Integer> sogId = dao.getPlayListSongsId(pL_Name);
+        this.pL_id = daoPlaylist.getPlayListId(pL_Name);
+        List<Integer> sogId = dao.getPlayListSongsId(pL_id);
         System.out.println("\t\t  -------------------------------\uD83D\uDD7A"+pL_Name+"\uD83D\uDD7A--------------------------------");
         try {
-            if (sogId.get(1) >0) {
+            if (sogId.size() >0) {
                 List<SongModel> display = dao.displayPlayList(sogId);
                 playDisplay.showSongs(display);
                 System.out.println("Enter the song_id");
-                daoPlaylist.deleteSongsInPlayList(pL_Name,scanner.nextInt());
-            }
+                daoPlaylist.deleteSongsInPlayList(pL_id,scanner.nextInt());
+            }else
+                System.out.println("No song found");
         } catch (Exception ignored) {
             System.out.println("There is no such playlist or check the Spelling");
         }
@@ -128,6 +137,6 @@ public class PlaylistImpl {
         List<PlayList> ply = dao.displayPlayList();
         playDisplay.playList(ply);
         pL_Name = scanner.next();
-        daoPlaylist.deletePlayListString(pL_Name);
+        daoPlaylist.deletePlayListString(daoPlaylist.getPlayListId(pL_Name));
     }
 }

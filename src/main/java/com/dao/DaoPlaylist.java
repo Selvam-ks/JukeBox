@@ -1,15 +1,18 @@
 package com.dao;
+import com.model.UserInfo;
 import com.mysql.cj.jdbc.exceptions.MySQLQueryInterruptedException;
 
 import java.sql.*;
 
 import static com.dao.Dao.getConnection;
+import static com.model.UserInfo.getUSER;
 public class DaoPlaylist {
-    //ResultSet rs=null;
+    ResultSet rs=null;
     Statement st=null;
    // ResultSet rs=null;
     Connection con = null;
     PreparedStatement pst;
+
     public int createPlayListNew(String playList_Name)          //without multi-table
     {
         con = getConnection();
@@ -24,30 +27,46 @@ public class DaoPlaylist {
         }
         return tableUpdated;
     }
-    public void addSongsToPlayList(String pL_Name,int song_idU)         //without multi-table
+
+    public int getPlayListId(String playList_Name){
+        con = getConnection();
+        int playList_Id = 0;
+        try {
+            st = con.createStatement();
+            rs = st.executeQuery("select * from `jukebox`.`playlist_name_list` where playlist_name ='"+playList_Name+"'");
+            while (rs.next()){
+                playList_Id = rs.getInt(1);
+            }
+        }catch (Exception e){
+            System.out.println("getPlayListId");
+        }
+        return playList_Id;
+    }
+    public void addSongsToPlayList(int pL_Id,int song_idU)         //without multi-table // testing user collector
     {
         con = getConnection();
         int rowAdded = 0;
         try {
             st = con.createStatement();
-            pst = con.prepareStatement("INSERT INTO jukebox.playlist_collector (song_id,playlist_name) value (?,?)");
+            pst = con.prepareStatement("INSERT INTO jukebox.playlist_collector (song_id,playlist_id,user_id) value (?,?,?)");
             pst.setInt(1,song_idU);
-            pst.setString(2,pL_Name);
+            pst.setInt(2,pL_Id);
+            pst.setInt(3,getUSER());
             rowAdded = pst.executeUpdate();
             System.out.println("Added Successfully "+rowAdded);
         }
         catch (Exception e)
         {
-            System.out.println("The Song is already added to your playlist you cannot create duplicate entry");
+            System.out.println("The Song is already added to your playlist you cannot create duplicate entry   "+e.getMessage());
         }
     }
-    public void deleteSongsInPlayList(String pL_Name,int song_idU)          //without multi-table
+    public void deleteSongsInPlayList(int pL_id,int song_idU)          //without multi-table
     {
         con = getConnection();
         int tableUpdated = 0;
         try {
             st = con.createStatement();
-            tableUpdated = st.executeUpdate("DELETE FROM jukebox.playlist_collector WHERE (`song_id` = "+song_idU+" and playlist_name = '"+pL_Name+"')");
+            tableUpdated = st.executeUpdate("DELETE FROM jukebox.playlist_collector WHERE (`song_id` = "+song_idU+" and playlist_id = "+pL_id+")");
         }catch (Exception e) {
             System.out.println(e);
         }
@@ -55,20 +74,19 @@ public class DaoPlaylist {
             System.out.println("Deleted Successfully");
         else System.out.println("data Not Found");
     }
-    public void deletePlayListString(String pL_Name)
+    public void deletePlayListString(int pL_id)
     {
         con = getConnection();
         int name_listdelete = 0;
         int collectorDelete = 0;
         try {
             st = con.createStatement();
-            collectorDelete = st.executeUpdate("DELETE FROM jukebox.playlist_collector WHERE (`playlist_name` = '"+pL_Name+"')");
-            name_listdelete = st.executeUpdate("DELETE FROM jukebox.playlist_name_list WHERE (`playlist_name` = '"+pL_Name+"')");
+            collectorDelete = st.executeUpdate("DELETE FROM jukebox.playlist_collector WHERE (`playlist_id` = "+pL_id+")");
+            name_listdelete = st.executeUpdate("DELETE FROM jukebox.playlist_name_list WHERE (`playlist_id` = "+pL_id+")");
         }catch (Exception e)
         {
             System.out.println(e.getMessage());
         }
-        System.out.println(name_listdelete+"   "+collectorDelete);
         if(name_listdelete >0 && collectorDelete >0)
             System.out.println("PlayList Deleted Successfully");
         else System.out.println("data Not Found");

@@ -3,19 +3,27 @@ package com.dao;
 import com.model.PlayList;
 import com.model.SongModel;
 import com.model.SearchSongsBy;
+import com.mysql.cj.Query;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.model.UserInfo.getUSER;
+
 public class Dao implements SearchSongsBy {
     static Connection con = null;
     ResultSet rs=null;
     Statement st=null;
     SongModel songobj;
+    PreparedStatement pst;
     public static Connection getConnection()
     {
         try{//it will load the driver and create a connectivity
@@ -129,12 +137,33 @@ public class Dao implements SearchSongsBy {
         }
         return bySongArtistList;
     }
-    public List<Integer> getPlayListSongsId(String playList)        // without multi table
+
+    @Override
+    public List<SongModel> bySongNameStartWith(String strWith) {
+        con=getConnection();
+        List<SongModel> bySongNameList = new ArrayList<>();
+        try{
+            st = con.createStatement();
+            rs = st.executeQuery("select * from jukebox.songs where song_name LIKE'"+strWith+"%'");
+            while (rs.next()) {
+                songobj = new SongModel(rs.getInt("song_id"),rs.getString("song_name"),rs.getString("album"),
+                        rs.getString(4), rs.getString(5), rs.getDouble("duration"),rs.getString("url"));
+                bySongNameList.add(songobj);
+            }
+
+        }catch (Exception e)
+        {
+            System.out.println("The Exceptions..."+e.getMessage());
+        }
+        return bySongNameList;
+    }
+
+    public List<Integer> getPlayListSongsId(int play_id)        // without multi table
     {con = getConnection();
         List<Integer> list = new ArrayList<>();
         try{
             st = con.createStatement();
-            rs = st.executeQuery("select song_id from jukebox.playlist_collector where playlist_name = '"+playList+"'");
+            rs = st.executeQuery("select song_id from jukebox.playlist_collector where playlist_id = '"+play_id+"'");
             while (rs.next()) {
                 list.add(rs.getInt(1));
             }
@@ -148,16 +177,32 @@ public class Dao implements SearchSongsBy {
         con=getConnection();
         List<SongModel> PlayListSongs = new ArrayList<>();
         try{
-            Iterator<Integer> i = songId.listIterator();
-            while (i.hasNext()) {
+//            String inSql = String.join(",", Collections.nCopies(songId.size(),"?"));
+//            System.out.println(inSql);
+            for (Integer integer : songId) {
                 st = con.createStatement();
-                rs = st.executeQuery("select * from jukebox.songs where song_Id ="+i.next());
+                rs = st.executeQuery("select * from jukebox.songs where song_Id =" + integer);
                 while (rs.next()) {
                     songobj = new SongModel(rs.getInt("song_id"), rs.getString("song_name"), rs.getString("album"),
                             rs.getString(4), rs.getString(5), rs.getDouble("duration"), rs.getString("url"));
                     PlayListSongs.add(songobj);
                 }
             }
+        }catch (Exception e) {
+            System.out.println("The Exceptions..."+e.getMessage());
+        }
+        return  PlayListSongs;
+    }
+    public List<SongModel> displayPlayList1(List<Integer> songId)
+    {
+
+        List<SongModel> PlayListSongs = new ArrayList<>();
+        try{
+            con=getConnection();
+            String inSql = String.join(",", Collections.nCopies(songId.size(),"?"));
+            st = con.createStatement();
+            pst = con.prepareStatement("select * from jukebox.songs where (song_Id) in (?)");
+            pst.setAsciiStream(1, (InputStream) songId,songId.size());
         }catch (Exception e) {
             System.out.println("The Exceptions..."+e.getMessage());
         }
@@ -187,15 +232,21 @@ public class Dao implements SearchSongsBy {
         con=getConnection();
         ArrayList<PlayList> plylst  = new ArrayList<>();
         PlayList ply;
+        List<Integer> play_id = new ArrayList<>();
         try {
             st = con.createStatement();
-            rs = st.executeQuery("SELECT * FROM jukebox.playlist_name_list"); //change this to manipulate the table
+            rs = st.executeQuery("SELECT distinct playlist_id FROM jukebox.playlist_collector where user_id ="+getUSER());
+            while (rs.next()) {
+                play_id.add(rs.getInt("playlist_id"));
+            }
+            String inClause = play_id.stream().map(String::valueOf).collect(Collectors.joining(","));
+            rs = st.executeQuery("SELECT * FROM jukebox.playlist_name_list WHERE playlist_id in ("+inClause+")"); //change this to manipulate the table
             while (rs.next()) {
                 ply = new PlayList(rs.getInt("playlist_id"),rs.getString(2));
                 plylst.add(ply);
             }
         }catch (Exception e) {
-            System.out.println("The Exceptions..."+e.getMessage());
+            System.out.println("No PLAYLIST");
         }
         return plylst;
     }

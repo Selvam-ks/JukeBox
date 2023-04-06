@@ -10,7 +10,7 @@ public class Menus {
         src  = new Scanner(System.in);
         int a = 0;
         try {
-            System.out.println("Search By\n1. Song Name\n2. Album\n3. Artist\n4. Gener\nEnter by Number");
+            System.out.println("Search By\n1. Song Name\n2. Album\n3. Artist\n4. Gener\n5. Song StartWith\nEnter by Number");
             a =  src.nextInt();
         }catch (InputMismatchException e) {
             System.out.println("Sorry, pls in put only the number that Provided");
@@ -67,7 +67,18 @@ public class Menus {
         src  = new Scanner(System.in);
         int a = 0;
         try {
-            System.out.println("1. \uD83C\uDFB6Show All Song\uD83C\uDFB6\n2. \uD83C\uDFB6Search Song Menu\uD83C\uDFB6\n3. \uD83C\uDFB6Playlist Menu\uD83C\uDFB6\n4.   Updates Info\n5.   Exit"); //54. Add Songs To DataBase
+            System.out.println("1. \uD83C\uDFB6Show All Song\uD83C\uDFB6\n2. \uD83C\uDFB6Search Song Menu\uD83C\uDFB6\n3. \uD83C\uDFB6Playlist Menu\uD83C\uDFB6\n4.   User Menu\n5.   Updates Info\n6.   Exit"); //54. Add Songs To DataBase
+            a =  src.nextInt();
+        }catch (InputMismatchException e) {
+            System.out.println("Sorry, pls in put only the number that Provided");
+        }
+        return a;
+    }
+    public int userMenu() {
+        src  = new Scanner(System.in);
+        int a = 0;
+        try {
+            System.out.println("1. \uD83C\uDFB6Show All Song\uD83C\uDFB6\n2. \uD83C\uDFB6Search Song Menu\uD83C\uDFB6\n3. \uD83C\uDFB6Playlist Menu\uD83C\uDFB6\n4.   Updates Info\n5.   LogOut"); //54. Add Songs To DataBase
             a =  src.nextInt();
         }catch (InputMismatchException e) {
             System.out.println("Sorry, pls in put only the number that Provided");
@@ -92,9 +103,12 @@ public class Menus {
     }
 
     //under Beta Testing
-    /*public int userLoginMenu()
+    public int userLoginMenu()
     {
-        System.out.println("1. Sign-Up\n2. Sign-In\n3. Continue Without Sign-up");
-        return 2;
-    }*/
+        src  = new Scanner(System.in);
+        int a = 0;
+        System.out.println("1. Sign-Up\n2. Sign-In\n3. Continue Without Sign-up\n4. updates info\n5. Exit");
+        a =  src.nextInt();
+        return a;
+    }
 }

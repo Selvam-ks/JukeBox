@@ -5,5 +5,6 @@ public interface SearchSongsBy {
     List<SongModel> bySongAlbum(String album);
     List<SongModel> bySongArtist(String artist);
     List<SongModel> bySongGener(String gener);
+    List<SongModel> bySongNameStartWith(String strWith);
 
 }

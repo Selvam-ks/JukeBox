@@ -24,12 +24,13 @@ public class Audio {
         Iterator<String> sn = arraysongname.iterator();
         while (i.hasNext() && sn.hasNext())
         {
-            String s = i.next();
-            //System.out.println(s);
-            audiogpo.AudioPlayerMethods(s);
+            String url = i.next();
+            String name = sn.next();
+//            System.out.println("Song Name : "+name);
+            audiogpo.AudioPlayerMethods(url);
             mnu.audioMenu();
             int a = 0;
-            System.out.println("Your Playing this Song :- "+sn.next());
+            System.out.println("Your Playing this Song :- "+name);
                 do {
                     try {
                         System.out.println("Enter a Choice");
@@ -56,7 +57,7 @@ public class Audio {
                                 break;
                             case 7:
                                 exit = "exit";
-                                System.out.println("Exiting to menu");
+                                System.out.println("!***Play list Ended***!\uD83D\uDE00");
                                 break;
                             default:
                                 break;
@@ -68,10 +69,13 @@ public class Audio {
                         break;
                 } while (a != 0);
             audiogpo.stopAudio();
-            if (exit.equals("exit"))
+            if (a==0) {
+                System.out.print("The Next ");
+            }
+            if (exit.equals("exit")) {
+                System.out.println("Exiting to menu");
                 break;
-
-            System.out.println("!***Play list Ended***!\uD83D\uDE00");
+            }
         }
     }
 }

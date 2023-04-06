@@ -18,13 +18,17 @@ public class SongsTableForm {
         System.out.println("+-------------------X-------------------------X---------------------X------------------------+");
     }
     public void playList(List<PlayList> playLists) {
-        System.out.println("+------------\uD83D\uDD7A----------------+");
+        System.out.println("+------------\uD83D\uDD7A-----------------+");
         System.out.format("| %-11s | %-15s |\n","PlayList_id","PlayList");
         System.out.println("+-------------------------------+");
+        if(playLists.size()==0){
+            System.out.format("| %-29s |\n","No Play List");
+        }
         for (PlayList o : playLists) {
             System.out.format("| %-11s | %-15s |\n",o.getSong_id_playlist(),o.getPlayListName());
         }
         System.out.println("---------X------X------X---------");
-        System.out.println("Enter The Name of the PlayList");
+        if(playLists.size()!=0)
+            System.out.println("Enter The Name of the PlayList");
     }
 }
