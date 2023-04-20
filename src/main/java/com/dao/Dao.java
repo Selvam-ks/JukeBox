@@ -4,10 +4,7 @@ import com.model.PlayList;
 import com.model.SongModel;
 import com.model.SearchSongsBy;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -170,8 +167,7 @@ public class Dao implements SearchSongsBy {
         }
         return list;
     }
-    public List<SongModel> displayPlayList(List<Integer> songId)
-    {
+    public List<SongModel> displayPlayList(List<Integer> songId){
         con=getConnection();
         List<SongModel> PlayListSongs = new ArrayList<>();
         try{
@@ -185,14 +181,14 @@ public class Dao implements SearchSongsBy {
                             rs.getString(4), rs.getString(5), rs.getDouble("duration"), rs.getString("url"));
                     PlayListSongs.add(songobj);
                 }
+                con.close();
             }
         }catch (Exception e) {
             System.out.println("The Exceptions..."+e.getMessage());
         }
         return  PlayListSongs;
     }
-    public List<SongModel> displayPlayList1(List<Integer> songId)
-    {
+    public List<SongModel> displayPlayList1(List<Integer> songId){
 
         List<SongModel> PlayListSongs = new ArrayList<>();
         try{
@@ -259,8 +255,8 @@ public class Dao implements SearchSongsBy {
             while ((line = br.readLine())!=null){
                 System.out.println(line);
             }
-
-        }catch (IOException ignored) {
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }
