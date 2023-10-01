@@ -31,74 +31,73 @@ public class SongMainImpl {
         mnu.welcome();
         boolean repert = false;
         boolean exit = false;
-        if(userManage())
-            if (UserInfo.isIsLOGIN()){
+        if (userManage())
+            if (UserInfo.isIsLOGIN()) {
                 userLoggedIn();
-            }
-        else {
-            do {
-                Thread thread = new Thread(new SongLoader());
-                thread.start();
-                int option = mnu.menu();
-                switch (option) {
-                    case 1 -> {//display all songs
+            } else {
+                do {
+                    Thread thread = new Thread(new SongLoader());
+                    thread.start();
+                    int option = mnu.menu();
+                    switch (option) {
+                        case 1 -> {//display all songs
 
-                        SongsTableForm myview = new SongsTableForm();
-                        myview.showSongs(songModel);
-                        int a = mnu.audioPlayMenu();
-                        if (a == 1)
-                            audio.playAllSongs(songModel);
-                        repert = false;
-                        ss = "Y";
-                    }
-                    case 2 -> {//Search Song
-                        songSearch.displayAllSongs();
-                        songSearch.searchSongProcess(mnu.searchSongList());
-                        repert = false;
-                        ss = "Y";
-                    }
-                    case 3 -> {//Show Playlist
-                        if (UserInfo.isIsLOGIN()) {
-                            plyLst.PlaylistOptions();
-                        } else {
-                            System.out.println("Pls login");
-                            userManage();
+                            SongsTableForm myview = new SongsTableForm();
+                            myview.showSongs(songModel);
+                            int a = mnu.audioPlayMenu();
+                            if (a == 1)
+                                audio.playAllSongs(songModel);
+                            repert = false;
+                            ss = "Y";
                         }
-                        repert = false;
-                        ss = "N";
+                        case 2 -> {//Search Song
+                            songSearch.displayAllSongs();
+                            songSearch.searchSongProcess(mnu.searchSongList());
+                            repert = false;
+                            ss = "Y";
+                        }
+                        case 3 -> {//Show Playlist
+                            if (UserInfo.isIsLOGIN()) {
+                                plyLst.PlaylistOptions();
+                            } else {
+                                System.out.println("Pls login");
+                                userManage();
+                            }
+                            repert = false;
+                            ss = "N";
+                        }
+                        case 4 -> userManage();
+                        case 5 -> {// update information
+                            dps.updateFileReader();
+                            repert = true;
+                        }
+                        case 6 -> {//Exit
+                            repert = true;
+                            exit = true;
+                        }
+                        case 1985 ->//add songs to table
+                                smipl.addSongToDatabase();
+                        default -> System.out.println("No such option");
                     }
-                    case 4 -> userManage();
-                    case 5 -> {// update information
-                        dps.updateFileReader();
-                        repert = true;
-                    }
-                    case 6 -> {//Exit
-                        repert = true;
-                        exit = true;
-                    }
-                    case 1985 ->//add songs to table
-                            smipl.addSongToDatabase();
-                    default -> System.out.println("No such option");
-                }
-                if(repert)
-                    if(!exit){
-                    System.out.println("Would you like to Repeat The Main menu Or Exit [Y/N]");
-                    ss = src.next().toUpperCase();
-                }else {
-                    System.out.println("Conform Exit in menu [Y/N]");
-                    ss = src.next().toUpperCase();
-                    if(ss.equals("Y"))
-                        ss = "N";
-                    else
-                        ss = "Y";
-                }
-            }while (ss.equals("Y"));
-        }
+                    if (repert)
+                        if (!exit) {
+                            System.out.println("Would you like to Repeat The Main menu Or Exit [Y/N]");
+                            ss = src.next().toUpperCase();
+                        } else {
+                            System.out.println("Conform Exit in menu [Y/N]");
+                            ss = src.next().toUpperCase();
+                            if (ss.equals("Y"))
+                                ss = "N";
+                            else
+                                ss = "Y";
+                        }
+                } while (ss.equals("Y"));
+            }
 
         mnu.exitmsg();
     }
 
-    public static boolean userManage(){
+    public static boolean userManage() {
         String ss = "N";
         Menus mnu = new Menus();
         boolean repert = false;
@@ -108,35 +107,35 @@ public class SongMainImpl {
             do {
                 int option = mnu.userLoginMenu();
                 switch (option) {
-                    case 1 ->{ // signUp
+                    case 1 -> { // signUp
                         int a;
-                        boolean flag=true;
-                        do{
+                        boolean flag = true;
+                        do {
                             a = userLog.signUp();
-                            if(a == 1){
-                                flag= false;
+                            if (a == 1) {
+                                flag = false;
                                 userLog.login();
-                                if(UserInfo.isIsLOGIN()){
+                                if (UserInfo.isIsLOGIN()) {
                                     userLoggedIn();
-                                }else {
+                                } else {
                                     repert = false;
                                     ss = "Y";
                                 }
-                            }else {
+                            } else {
                                 System.out.println("Would like to re-try [Y/N]");
-                                if(src.next().equalsIgnoreCase("N")){
+                                if (src.next().equalsIgnoreCase("N")) {
                                     flag = false;
                                     repert = true;
                                 }
                             }
-                        }while (flag);
+                        } while (flag);
                         System.out.println(a);
                     }
                     case 2 -> {// LogIn
                         userLog.login();
-                        if(UserInfo.isIsLOGIN()){
+                        if (UserInfo.isIsLOGIN()) {
                             userLoggedIn();
-                        }else {
+                        } else {
                             repert = false;
                             ss = "Y";
                         }
@@ -156,24 +155,24 @@ public class SongMainImpl {
                     }
                     default -> System.out.println("No such option");
                 }
-                if(repert)
-            if(!exit){
-                    System.out.println("Would you like to Repeat The Main menu [Y/N]");
-                    ss = src.next().toUpperCase();
-                }else {
-                System.out.println("Conform Exit in User [Y/N]");
-                ss = src.next().toUpperCase();
-                if(ss.equals("Y")){
-                    ss = "N";
-                    demo = false;
-                }
-                else
-                    ss = "Y";
-            }
-            }while (ss.equals("Y"));
+                if (repert)
+                    if (!exit) {
+                        System.out.println("Would you like to Repeat The Main menu [Y/N]");
+                        ss = src.next().toUpperCase();
+                    } else {
+                        System.out.println("Conform Exit in User [Y/N]");
+                        ss = src.next().toUpperCase();
+                        if (ss.equals("Y")) {
+                            ss = "N";
+                            demo = false;
+                        } else
+                            ss = "Y";
+                    }
+            } while (ss.equals("Y"));
         return demo;
     }
-    public static void userLoggedIn(){
+
+    public static void userLoggedIn() {
         String ss = "N";
         Menus mnu = new Menus();
         Audio audio = new Audio();
@@ -231,11 +230,11 @@ public class SongMainImpl {
                     }
                     default -> System.out.println("No such option");
                 }
-                if(repert){
+                if (repert) {
                     System.out.println("Would you like to Repeat The Main menu Or Exit [Y/N]");
                     ss = src.next().toUpperCase();
                 }
-            }while (ss.equals("Y"));
+            } while (ss.equals("Y"));
         System.out.println("Logging OUT");
     }
 
@@ -250,7 +249,7 @@ public class SongMainImpl {
         String url;
         System.out.println("The song should be in .wav format");
         System.out.println("Security Key");
-        if(src.nextInt() == 5891) {
+        if (src.nextInt() == 5891) {
             System.out.println("Enter the required details correctly instred of space use underscore ''_''");
             System.out.println("Enter song name");
             song_name = src.next();
@@ -261,10 +260,10 @@ public class SongMainImpl {
             System.out.println("Enter the genera");
             gener = src.next();
             System.out.println("Enter the Duration of song like example 4.13");
-            duration =src.nextDouble();
+            duration = src.nextDouble();
             System.out.println("Enter the URL Correctly**");
             url = src.next();
-            daPly.addSongToDataBase(song_name,album,artist,gener,duration,url);
+            daPly.addSongToDataBase(song_name, album, artist, gener, duration, url);
         }
     }
 }

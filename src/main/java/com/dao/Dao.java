@@ -19,18 +19,16 @@ public class Dao implements SearchSongsBy {
     Statement st=null;
     SongModel songobj;
     PreparedStatement pst;
-    public static Connection getConnection()
-    {
+    public static Connection getConnection(){
         try{//it will load the driver and create a connectivity
-            //Class.forName("com.mysql.cj.jdbc.Driver");  //loading the driver
+            Class.forName("com.mysql.cj.jdbc.Driver");  //loading the driver
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/jukebox","root","root"); //connection establishing
         }catch (Exception e) {
             System.out.println(e.getMessage());
         }
         return con;
     }
-    public List<SongModel> getAllSongs()
-    {
+    public List<SongModel> getAllSongs() {
         con=getConnection();
         List<SongModel> allSongList = new ArrayList<>();
         int song_id;
@@ -54,6 +52,7 @@ public class Dao implements SearchSongsBy {
                 songobj = new SongModel(song_id,song_name,album,artist,gener,duration,url);
                 allSongList.add(songobj);
             }
+            con.close();
         }catch (Exception e)
         {
             System.out.println("The Exceptions..."+e.getMessage());
@@ -73,7 +72,7 @@ public class Dao implements SearchSongsBy {
                         rs.getString(4), rs.getString(5), rs.getDouble("duration"),rs.getString("url"));
                 bySongNameList.add(songobj);
             }
-
+            con.close();
         }catch (Exception e)
         {
             System.out.println("The Exceptions..."+e.getMessage());
@@ -93,6 +92,7 @@ public class Dao implements SearchSongsBy {
                         rs.getString(4), rs.getString(5), rs.getDouble("duration"),rs.getString("url"));
                 bySongAlbumList.add(songobj);
             }
+            con.close();
         }catch (Exception e) {
             System.out.println("The Exceptions..."+e.getMessage());
         }return bySongAlbumList;
@@ -110,6 +110,7 @@ public class Dao implements SearchSongsBy {
                         rs.getString(4), rs.getString(5), rs.getDouble("duration"),rs.getString("url"));
                 bySongArtistList.add(songobj);
             }
+            con.close();
         }catch (Exception e) {
             System.out.println("The Exceptions..."+e.getMessage());
         }return bySongArtistList;
@@ -127,6 +128,7 @@ public class Dao implements SearchSongsBy {
                         rs.getString(4), rs.getString(5), rs.getDouble("duration"),rs.getString("url"));
                 bySongArtistList.add(songobj);
             }
+            con.close();
         }catch (Exception e) {
             System.out.println("The Exceptions..."+e.getMessage());
         }
@@ -145,7 +147,7 @@ public class Dao implements SearchSongsBy {
                         rs.getString(4), rs.getString(5), rs.getDouble("duration"),rs.getString("url"));
                 bySongNameList.add(songobj);
             }
-
+            con.close();
         }catch (Exception e)
         {
             System.out.println("The Exceptions..."+e.getMessage());
@@ -162,6 +164,7 @@ public class Dao implements SearchSongsBy {
             while (rs.next()) {
                 list.add(rs.getInt(1));
             }
+            con.close();
         }catch (Exception e) {
             System.out.println("There is No such table");
         }
@@ -197,6 +200,7 @@ public class Dao implements SearchSongsBy {
             st = con.createStatement();
             pst = con.prepareStatement("select * from jukebox.songs where (song_Id) in (?)");
             pst.setAsciiStream(1, (InputStream) songId,songId.size());
+            con.close();
         }catch (Exception e) {
             System.out.println("The Exceptions..."+e.getMessage());
         }
@@ -216,6 +220,7 @@ public class Dao implements SearchSongsBy {
                     flag = true;
                     break;}
             }
+            con.close();
         }catch (Exception e) {
             System.out.println("The Exceptions..."+e.getMessage());
         }
@@ -239,6 +244,7 @@ public class Dao implements SearchSongsBy {
                 ply = new PlayList(rs.getInt("playlist_id"),rs.getString(2));
                 plylst.add(ply);
             }
+            con.close();
         }catch (Exception e) {
             System.out.println("No PLAYLIST");
         }
